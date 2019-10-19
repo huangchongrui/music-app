@@ -3,11 +3,28 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import MintUI from 'mint-ui'
+// 引入全局样式文件，修改第三方组件库样式
+import "./assets/resetui.css"
+// 引入vant部分功能模块
+import { Tab, Tabs,Popup,Swipe,SwipeItem,Lazyload,IndexBar,IndexAnchor,Cell } from 'vant'
+// 引入vant部分功能模块样式
+import 'vant/lib/tab/style'
+import 'vant/lib/tabs/style'
+import 'vant/lib/popup/style'
+import 'vant/lib/swipe/style'
+import 'vant/lib/swipe-item/style'
+import 'vant/lib/lazyload/style'
+import 'vant/lib/index-bar/style'
+import 'vant/lib/index-anchor/style'
+import 'vant/lib/cell/style'
+Vue.use(Tab,).use(Tabs).use(Popup).use(Swipe).use(SwipeItem).use(Lazyload).use(IndexBar).use(IndexAnchor).use(Cell);
 
+//引入mint-ui组件库
+import MintUI from 'mint-ui'
 Vue.use(MintUI)
 import 'mint-ui/lib/style.css'
 
+//引入axios异步请求
 import axios from "axios"
 axios.defaults.baseURL="http://127.0.0.1:4000/";
 axios.defaults.withCredentials=true;
