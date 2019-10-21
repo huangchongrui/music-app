@@ -1,7 +1,7 @@
 <template>
-    <div id="index">
+    <div class="index">
         <!-- 头部 -->
-        <div class="header">
+        <header>
             <!-- 左侧弹出层按钮 -->
             <div>
                 <img src="../../assets/personList.png" @click="personListShow">
@@ -17,28 +17,23 @@
                     <div>右侧内容</div>
                 </van-popup>
             </div>
-        </div>
+        </header>
         <!-- 导航栏 -->
-        <van-tabs v-model="active" swipeable background="#77ccf4" line-width="35px" title-active-color="#fff" title-inactive-color="#fff">
+        <van-tabs v-model="active" swipeable background="#77ccf4" line-width="30px" title-active-color="#fff" title-inactive-color="#fff">
             <!-- 导航栏对应内容 -->
             <van-tab v-for="item,i of headerList" :title="item.uname" :key="i">
-                <!-- 轮播图，只在第一个导航中显示 -->
-                <div class="carousel" v-show="active==0">
-                    <van-swipe :autoplay="3000">
-                        <van-swipe-item v-for="(image, index) in images" :key="index">
-                            <img v-lazy="image" class="carousel-img"/>
-                        </van-swipe-item>
-                    </van-swipe>
-                </div>
                 <!-- 数据库引入的具体内容 -->
-                <div>
-                    内容{{item.list}}
-                </div>
+               <navitem1 v-if="i==0"></navitem1>
+               <navitem2 v-else-if="i==1"></navitem2>
+               <navitem3 v-else></navitem3>
             </van-tab>
         </van-tabs>
     </div>
 </template>
 <script>
+import navitem1 from "./navitem/navitem1"
+import navitem2 from "./navitem/navitem2"
+import navitem3 from "./navitem/navitem3"
 export default {
     data(){
         return {
@@ -46,10 +41,6 @@ export default {
             active:0,
             personListPopup:false,
             searchPopup:false,
-            images: [
-                'https://img.yzcdn.cn/vant/apple-1.jpg',
-                'https://img.yzcdn.cn/vant/apple-2.jpg'
-            ]
         }
     },
     methods:{
@@ -62,27 +53,31 @@ export default {
 
     },
     components:{
-
+        navitem1,navitem2,navitem3
     }
 }
 </script>
 <style scoped>
-    .header{
-        height:44px;
+    index{position:relative;width:100%}
+    header{
+        height:44px;width:100%;
         padding:0 10px;
         background-color:#77ccf4;
         display:flex;
         justify-content:space-between;
         align-items:center;
+        position:fixed;
+        z-index:1000;
     }
-    .header>h4{color:#fff}
+    header>h4{color:#fff}
     .icon-right{width:20px;padding-right:5px;}
-    .carousel{
-        padding:10px 10px 20px;
-        width:100%;height:150px;
-        background-color:#77ccf4;
-        box-sizing:border-box;
-        margin-bottom:150px
-    }
-    .carousel-img{ width:100%;border-radius:5px;}
+     .index /deep/ .van-hairline--top-bottom:after{border-width:0}
+     .index /deep/ .van-tabs--line .van-tabs__wrap{padding-bottom:7px;color:#e4e4e4}
+     .index /deep/ .van-ellipsis{color:#e4e4e4}
+     .index /deep/ .van-tabs__nav--line{
+        position:fixed;
+        z-index:1000;
+        width:100%;
+        height:37px;
+     }
 </style>

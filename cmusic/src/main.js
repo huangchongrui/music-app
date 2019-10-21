@@ -3,8 +3,6 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-// 引入全局样式文件，修改第三方组件库样式
-import "./assets/resetui.css"
 // 引入vant部分功能模块
 import { Tab, Tabs,Popup,Swipe,SwipeItem,Lazyload,IndexBar,IndexAnchor,Cell } from 'vant'
 // 引入vant部分功能模块样式

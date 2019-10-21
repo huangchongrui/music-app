@@ -10,10 +10,10 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    {path: '/',name: 'index',component: Index},
+    {path: '/',redirect: { name: 'index' }},
     {path: '/index',name: 'index',component: Index},
     {path: '/navitem1',name: 'Navitem1',component: Navitem1},
-    {path: '/navitem2',name: 'Navitem1',component: Navitem2},
-    {path: '/navitem3',name: 'Navitem1',component: Navitem3},
+    {path: '/navitem2',name: 'Navitem2',component: Navitem2},
+    {path: '/navitem3',name: 'Navitem3',component: Navitem3},
   ]
 })

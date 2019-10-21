@@ -1,5 +1,12 @@
 <template>
     <div class="container">
+        <div class="carousel">
+            <van-swipe :autoplay="3000">
+                <van-swipe-item v-for="(image, index) in images" :key="index">
+                    <img v-lazy="image" class="carousel-img"/>
+                </van-swipe-item>
+            </van-swipe>
+        </div>
         <!-- 推荐歌单 -->
         <div class="recommend">推荐歌单</div>
         <ul class="recommend-list">
@@ -34,13 +41,27 @@ export default {
     data(){
         return{
             recommendList:[{num:100,content:"[VIP专享] 一周新歌推荐}"},{num:100,content:"[VIP专享] 一周新歌推荐}"},{num:100,content:"[VIP专享] 一周新歌推荐}"},{num:100,content:"[VIP专享] 一周新歌推荐}"},],
-            recommendMusicList:[{mname:"我和我的祖国我和我的祖国",uname:"王菲"},{mname:"我和我的祖国",uname:"王菲"},{mname:"我和我的祖国",uname:"王菲"},{mname:"我和我的祖国",uname:"王菲"},]
+            recommendMusicList:[{mname:"我和我的祖国我和我的祖国",uname:"王菲"},{mname:"我和我的祖国",uname:"王菲"},{mname:"我和我的祖国",uname:"王菲"},{mname:"我和我的祖国",uname:"王菲"}],
+            images: [
+                'https://img.yzcdn.cn/vant/apple-1.jpg',
+                'https://img.yzcdn.cn/vant/apple-2.jpg',
+                'https://img.yzcdn.cn/vant/apple-2.jpg'
+            ]
         }
     }
 }
 </script>
 <style scoped>
     .container{color:#2e3030;text-align:left}
+    .carousel{
+        padding:0 10px 20px;
+        width:100%;height:150px;
+        background-color:#77ccf4;
+        box-sizing:border-box;
+        margin-bottom:150px
+    }
+    .carousel-img{ width:100%;border-radius:5px;}
+    .container /deep/ .van-swipe{height:291px}
     .recommend{
         height: 65px;
         line-height: 65px;
