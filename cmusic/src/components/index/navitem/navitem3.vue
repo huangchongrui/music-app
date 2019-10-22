@@ -1,7 +1,6 @@
 <template>
     <div class="container">
-        <!-- 轮播图，只在第一个导航中显示 -->
-        <van-index-bar>
+        <van-index-bar :sticky-offset-top=96 highlight-color="#77ccf4" :sticky="false">
             <div v-for="(item,i) of indexList" :key="i">
                 <van-index-anchor :index=item />
                 <div v-for="(item2,i2) of singers">

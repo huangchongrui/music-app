@@ -19,7 +19,7 @@
             </div>
         </header>
         <!-- 导航栏 -->
-        <van-tabs v-model="active" swipeable background="#77ccf4" line-width="30px" title-active-color="#fff" title-inactive-color="#fff">
+        <van-tabs v-model="active" swipeable background="#77ccf4" line-width="30px" title-active-color="#fff" title-inactive-color="#fff" @click="onClick">
             <!-- 导航栏对应内容 -->
             <van-tab v-for="item,i of headerList" :title="item.uname" :key="i">
                 <!-- 数据库引入的具体内容 -->
@@ -50,6 +50,9 @@ export default {
         searchShow(){
             this.searchPopup=!this.searchPopup;
         },
+        onClick(name, title) {
+            window.scrollTo(0,0);
+        }
 
     },
     components:{

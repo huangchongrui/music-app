@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <ul class="ranking-list">
             <li class="ranking-item" v-for="(item,i) of rankingList" :key="i">
                 <img src="../../../assets/ranking.png"/>
@@ -16,7 +16,7 @@
 export default {
     data(){
         return{
-            rankingList:[{lid:1,mname:"Hi Girl",uname:"马千里马千里马千里马千里马千里马千里马千里马千里马千里马千里马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"}]
+            rankingList:[{lid:1,mname:"Hi Girl",uname:"马千里马千里马千里马千里马千里马千里马千里马千里马千里马千里马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"}]
         }
     }
 }
@@ -49,6 +49,8 @@ export default {
         white-space: nowrap;
         line-height:30px;
         text-align:left;
-        max-width:265px;
+    }
+    @media screen and (max-width:576px){
+        .ranking-music>li p{max-width:265px;}
     }
 </style>

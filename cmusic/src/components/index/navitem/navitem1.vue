@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <!-- 轮播图，只在第一个导航中显示 -->
         <div class="carousel">
             <van-swipe :autoplay="3000">
                 <van-swipe-item v-for="(image, index) in images" :key="index">
@@ -52,7 +53,7 @@ export default {
 }
 </script>
 <style scoped>
-    .container{color:#2e3030;text-align:left}
+    .container{color:#2e3030;text-align:left;}
     .carousel{
         padding:0 10px 20px;
         width:100%;height:150px;

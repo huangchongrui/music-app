@@ -27,7 +27,7 @@ var pool = mysql.createPool({
 var server = express();
 server.use(cors({
   //允许程序列表
-  origin:["http://127.0.0.1:3001","http://localhost:3001"],
+  origin:["http://127.0.0.1:8080","http://localhost:8080"],
   credentials:true//每次请求需要验证
 }))
 //5:配置session模块，在当前会话中保存用户等信息
