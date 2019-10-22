@@ -17,7 +17,7 @@ var pool = mysql.createPool({
     user:"root",      //数据库用户名
     password:"",      //数据库密码
     port:3306,      //数据库端口
-    database:"xz",//库名
+    database:"cmusic",//库名
     connectionLimit:15//15连接
 })
 //4:配置跨域模块
@@ -60,162 +60,50 @@ pool.query(sql,[uname,upwd],(err,result)=>{
   req.session.uid = result[0].id;
   res.send({code:1,msg:"登录成功"});
  }
- //(6)将结果返回脚手架
 })
 })
 
-//#检测   16:00
-//(1)查询数据库是否有xz_login
-//   USE xz;
-//   SELECT * FROM xz_login;
-//(2)启动服务器
-//   node app.js
-//(3)打开浏览器在地址栏输入按回
-//   http://127.0.0.1:4000/login?uname=tom&upwd=123
-//   http://127.0.0.:4000/login?uname=tom&upwd=122   
-//app.js 复9~73   
 
-
-
-//功能二:分页显示商品列表
+//功能二:获取轮播图
 //1:接收GET /product 
-server.get("/product",(req,res)=>{
-//2:接收二个参数 
-//  pno 页码 pagePageSize 页大小
-var pno = req.query.pno;
-var ps = req.query.pageSize;
-//3:设置默认值 pno=1 pageSize=4
-if(!pno){pno=1}
-if(!ps){ps=4}
-//4:计算第一问号值
-var off = (pno-1)*ps;
-//5:对pageSize转int，以免用户乱输入
-ps = parseInt(ps); 
+server.get("/carousel",(req,res)=>{
 //6:创建sql语句
-//自己写:库名;表名;列名 小写
-var sql = "SELECT lid,price,lname,img_url FROM xz_laptop LIMIT ?,?";
+var sql = "SELECT sid,cpic FROM carousel";
 //7:执行sql语句
-pool.query(sql,[off,ps],(err,result)=>{
+pool.query(sql,(err,result)=>{
   if(err)throw err;
   res.send({code:1,msg:"查询成功",data:result})
 })
-//8:将返回结果发送脚手架 
-})
-//检测 83~104 复制 你app.js重新
-//启动 node app.js
-//http://127.0.0.1:4000/product
-//http://127.0.0.1:4000/product?pno=2
-
-//ALTER TABLE xz_cart ADD uid INT;
-//功能三:将商品添加至购物车
-//1:接收请求 GET /addcart
-server.get("/addcart",(req,res)=>{
- //2:获取当前用户登录凭证 uid
- var uid = req.session.uid;
- //3:如果用户没登录返回错误消息
- if(!uid){
-  res.send({code:-1,msg:"请登录"});return; 
- }
- //4:获取商品编号/商品价格/商品名称
- var lid=req.query.lid;
- var lname=req.query.lname;
- var price=req.query.price;
- //5:查询指定用户是否购买过此商品
- var sql = "SELECT id FROM xz_cart WHERE uid = ? AND lid = ?";
- //6:执行sql
- pool.query(sql,[uid,lid],(err,result)=>{
-  if(err)throw err; 
-  //7:在回调函数判断是否购买过
-  if(result.length==0){
-  //8:添加一条数据
-  var sql = `INSERT INTO xz_cart VALUES(null,${lid},1,'${lname}',${price},${uid})`;
-  }else{
-  //9:更新一条数据
-  var sql = `UPDATE xz_cart SET count=count+1 WHERE uid=${uid} AND lid=${lid}`;
-  }
-  //10:执行sql
-  pool.query(sql,(err,result)=>{
-    if(err)throw err;
-    res.send({code:1,msg:"添加成功"})
-  })
-  //11:将执行结果返回脚手架 
- })
-});
-
-//检测
-//http://127.0.0.1:4000/addcart?lid=1&lname=mac&price=9
-
-//http://127.0.0.1:4000/login?uname=tom&upwd=123
-
-//http://127.0.0.1:4000/addcart?lid=1&lname=mac&price=9
-//113~152 复制
-
-
-//功能四：查询指定用户购物车列表
-server.get("/findcart",(req,res)=>{
-  //1.获取当前用户uid
-  var uid=req.session.uid;
-  if(!uid){
-    res.send({code:-1,msg:"请登录"});
-    return;
-  }
-  var sql="SELECT id,lid,price,lname,count from xz_cart where uid=?";
-  pool.query(sql,[uid],(err,data)=>{
-    if(err)throw err;
-    res.send({code:1,msg:"查询成功",data})
-  })
 })
 
-//检测
-//http://127.0.0.1:4000/findcart
-//http://127.0.0.1:4000/login?uname=tom&upwd=123
+//测试：http://127.0.0.1:4000/carousel
 
 
-//功能五：删除一个指定购物车中商品
-server.get("/del",(req,res)=>{
-  var id = req.query.id;
-//1:获取当前用户uid
-var uid = req.session.uid;
-//2:如果没有uid提示
-if(!uid){
- res.send({code:-1,msg:"请登录"});
- return;
-}  
-  var sql = "delete from xz_cart where id=?";
-  pool.query(sql,[id],(err,result)=>{
-    if(err) throw err;
-      if(result.affectedRows>0){
-        res.send({code:1,msg:"删除成功"})
-      }else{
-        res.send({code:-1,msg:"删除失败"})
-      }
-  }) 
-
+//功能三:获取推荐歌单
+//1:接收GET /product 
+server.get("/recommendList",(req,res)=>{
+//6:创建sql语句
+var sql = "SELECT linfo,listpic,lnum FROM songlist";
+//7:执行sql语句
+pool.query(sql,(err,result)=>{
+  if(err)throw err;
+  res.send({code:1,msg:"查询成功",data:result})
+})
 })
 
-//检测
-//先查询数据库的购物车中有哪些id
-//http://127.0.0.1:4000/del?id=2
-//http://127.0.0.1:4000/login?uname=tom&upwd=123
+//测试：http://127.0.0.1:4000/recommendList
 
-//功能六：删除多个指定购物车中商品
-server.get("/delselected",(req,res)=>{
-  var id=req.query.id;
-  var uid=req.session.uid;
-  if(!uid){ 
-    res.send({code:-2,msg:"请登录"});
-  return;}
-  //若小括号内是个数组，新版本可自动解析，老版本不行
-  var sql=`delete from xz_cart where id in (${id})`;
-  pool.query(sql,(err,result)=>{
-    if(err)throw err;
-    if(result.affectedRows>0){
-      res.send({code:1,msg:"删除成功"})
-    }else{res.send({code:-1,msg:"删除失败"})}
-  })
+
+//功能四:获取推荐歌曲
+//1:接收GET /product 
+server.get("/recommendMusicList",(req,res)=>{
+//6:创建sql语句
+var sql = "SELECT songName,spic FROM song";
+//7:执行sql语句
+pool.query(sql,(err,result)=>{
+  if(err)throw err;
+  res.send({code:1,msg:"查询成功",data:result})
+})
 })
 
-//检测
-//先查询数据库的购物车中有哪些id
-//http://127.0.0.1:4000/delselected?id=28,29
-//http://127.0.0.1:4000/login?uname=tom&upwd=123
+//测试：http://127.0.0.1:4000/recommendMusicList

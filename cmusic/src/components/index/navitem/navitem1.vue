@@ -3,8 +3,8 @@
         <!-- 轮播图，只在第一个导航中显示 -->
         <div class="carousel">
             <van-swipe :autoplay="3000">
-                <van-swipe-item v-for="(image, index) in images" :key="index">
-                    <img v-lazy="image" class="carousel-img"/>
+                <van-swipe-item v-for="(item, index) in carousels" :key="index">
+                    <img :src="`http://127.0.0.1:4000/${item.cpic}`" class="carousel-img"/>
                 </van-swipe-item>
             </van-swipe>
         </div>
@@ -15,12 +15,12 @@
                 <div class="recommend-num">
                     <img src="../../../assets/earphone.png"/>
                     <!-- 播放次数 -->
-                    <span>{{item.num}}万</span>
+                    <span>{{item.lnum}}万</span>
                 </div>
                 <!-- 歌单封面 -->
-                <img src="../../../assets/recommend-item-img.png"/>
+                <img :src="`http://127.0.0.1:4000/${item.listpic}`"/>
                 <!-- 歌单介绍 -->
-                <p>{{item.content}}</p>
+                <p>{{item.linfo}}</p>
             </li>
         </ul>
         <!-- 推荐歌曲 -->
@@ -41,28 +41,31 @@
 export default {
     data(){
         return{
-            recommendList:[{num:100,content:"[VIP专享] 一周新歌推荐}"},{num:100,content:"[VIP专享] 一周新歌推荐}"},{num:100,content:"[VIP专享] 一周新歌推荐}"},{num:100,content:"[VIP专享] 一周新歌推荐}"},],
-            recommendMusicList:[{mname:"我和我的祖国我和我的祖国",uname:"王菲"},{mname:"我和我的祖国",uname:"王菲"},{mname:"我和我的祖国",uname:"王菲"},{mname:"我和我的祖国",uname:"王菲"}],
-            images: [
-                'https://img.yzcdn.cn/vant/apple-1.jpg',
-                'https://img.yzcdn.cn/vant/apple-2.jpg',
-                'https://img.yzcdn.cn/vant/apple-2.jpg'
-            ]
+            recommendList:[],
+            recommendMusicList:[],
+            carousels: []
         }
-    }
+    },
+    created() {
+        this.axios.get("/carousel")
+        .then(res=>{this.carousels=res.data.data;});
+        this.axios.get("/recommendList")
+        .then(res=>{this.recommendList=res.data.data;});
+        this.axios.get("/recommendMusicList")
+        .then(res=>{this.recommendMusicList=res.data.data;console.log(this.recommendMusicList)});
+    },
 }
 </script>
 <style scoped>
     .container{color:#2e3030;text-align:left;}
     .carousel{
         padding:0 10px 20px;
-        width:100%;height:150px;
+        width:100%;height:130px;
         background-color:#77ccf4;
         box-sizing:border-box;
-        margin-bottom:150px
+        margin-bottom:36px;
     }
     .carousel-img{ width:100%;border-radius:5px;}
-    .container /deep/ .van-swipe{height:291px}
     .recommend{
         height: 65px;
         line-height: 65px;
@@ -99,7 +102,11 @@ export default {
     .recommend-item>p{
         line-height:16px;
         font-size:12px;
+        height:32px;
+        overflow: hidden;
+        text-overflow:ellipsis;
     }
+    .recommend-num>span{color:#fff}
     .p-height>p{
         overflow: hidden;
         text-overflow:ellipsis;
