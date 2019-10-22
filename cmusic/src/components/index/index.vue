@@ -67,7 +67,7 @@ export default {
         justify-content:space-between;
         align-items:center;
         position:fixed;
-        z-index:1000;
+        z-index:100;
     }
     header>h4{color:#fff}
     .icon-right{width:20px;padding-right:5px;}
@@ -76,8 +76,10 @@ export default {
      .index /deep/ .van-ellipsis{color:#e4e4e4}
      .index /deep/ .van-tabs__nav--line{
         position:fixed;
-        z-index:1000;
-        width:100%;
+        z-index:99;
         height:37px;
+        width:100%;
+        padding-top:44px;
      }
+     .index /deep/ .van-tab__pane{padding-top:52px}
 </style>

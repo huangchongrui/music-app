@@ -40,7 +40,6 @@ export default {
         display:flex;
         flex-direction: column;
         justify-content: center;
-        width:100%
     }
     .ranking-music>li p{
         font-size:15px;
@@ -50,5 +49,6 @@ export default {
         white-space: nowrap;
         line-height:30px;
         text-align:left;
+        max-width:265px;
     }
 </style>
