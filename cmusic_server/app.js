@@ -98,10 +98,9 @@ pool.query(sql,(err,result)=>{
 //1:接收GET /product 
 server.get("/recommendMusicList",(req,res)=>{
 //6:创建sql语句
-var start=parseInt(req.query.start);
-var sql = "SELECT songName,spic FROM song limit ?,12";
+var sql = "SELECT songName,spic FROM song";
 //7:执行sql语句
-pool.query(sql,[start],(err,result)=>{
+pool.query(sql,(err,result)=>{
   if(err)throw err;
   res.send({code:1,msg:"查询成功",data:result})
 })

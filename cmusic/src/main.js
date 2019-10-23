@@ -15,7 +15,7 @@ import 'vant/lib/lazyload/style'
 import 'vant/lib/index-bar/style'
 import 'vant/lib/index-anchor/style'
 import 'vant/lib/cell/style'
-Vue.use(Tab,).use(Tabs).use(Popup).use(Swipe).use(SwipeItem).use(Lazyload).use(IndexBar).use(IndexAnchor).use(Cell);
+Vue.use(Tab,).use(Tabs).use(Popup).use(Swipe).use(SwipeItem).use(Lazyload, {lazyComponent: true}).use(IndexBar).use(IndexAnchor).use(Cell);
 
 //引入mint-ui组件库
 import MintUI from 'mint-ui'

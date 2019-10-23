@@ -25,16 +25,19 @@
         </ul>
         <!-- 推荐歌曲 -->
         <div class="recommend">推荐歌曲</div>
-        <ul class="recommend-list">
-            <li class="recommend-item p-height" v-for="(item,i) of recommendMusicList" :key="i">
-                <!-- 歌曲封面 -->
-                <img src="../../../assets/recommend-item-img.png"/>
-                <!-- 歌曲名称 -->
-                <p>{{item.mname}}</p>
-                <!-- 歌手名称 -->
-                <p>{{item.uname}}</p>
-            </li>
-        </ul>
+        <lazy-component>
+            <ul class="recommend-list">
+                <li class="recommend-item p-height" v-for="(item,i) of recommendMusicList" :key="i">
+                    <!-- 歌曲封面 -->
+                    <img :src="`http://127.0.0.1:4000/${item.spic}`"/>
+                    <!-- 歌曲名称 -->
+                    <p>{{item.songName}}</p>
+                    <!-- 歌手名称 -->
+                    <p>{{item.uname}}</p>
+                </li>
+            </ul>
+        </lazy-component>
+        
     </div>
 </template>
 <script>
@@ -44,7 +47,6 @@ export default {
             recommendList:[],
             recommendMusicList:[],
             carousels: [],
-            start:0
         }
     },
     created() {
@@ -55,7 +57,7 @@ export default {
         this.axios.get("/recommendList")
         .then(res=>{this.recommendList=res.data.data;});
         //获取推荐歌曲
-        this.axios.get("/recommendMusicList",{params:{start:this.start}})
+        this.axios.get("/recommendMusicList")
         .then(res=>{this.recommendMusicList=res.data.data;console.log(this.recommendMusicList)});
     },
 }
