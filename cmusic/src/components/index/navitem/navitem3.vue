@@ -1,11 +1,14 @@
 <template>
     <div class="container">
+        <!-- 歌手列表 -->
         <van-index-bar :sticky-offset-top=96 highlight-color="#77ccf4" :sticky="false">
             <div v-for="(item,i) of indexList" :key="i">
                 <van-index-anchor :index=item />
                 <div v-for="(item2,i2) of singers">
                     <div class="singer">
+                        <!-- 歌手图片 -->
                         <img src="../../../assets/recommend-item-img.png" />
+                        <!-- 歌手名字 -->
                         <span>{{item2.sname}}</span>
                     </div>
                 </div>

@@ -43,15 +43,19 @@ export default {
         return{
             recommendList:[],
             recommendMusicList:[],
-            carousels: []
+            carousels: [],
+            start:0
         }
     },
     created() {
+        //获取轮播图
         this.axios.get("/carousel")
         .then(res=>{this.carousels=res.data.data;});
+        //获取推荐歌单
         this.axios.get("/recommendList")
         .then(res=>{this.recommendList=res.data.data;});
-        this.axios.get("/recommendMusicList")
+        //获取推荐歌曲
+        this.axios.get("/recommendMusicList",{params:{start:this.start}})
         .then(res=>{this.recommendMusicList=res.data.data;console.log(this.recommendMusicList)});
     },
 }

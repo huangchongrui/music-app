@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <!-- 榜单 -->
         <ul class="ranking-list">
             <li class="ranking-item" v-for="(item,i) of rankingList" :key="i">
                 <img src="../../../assets/ranking.png"/>

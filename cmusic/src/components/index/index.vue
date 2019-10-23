@@ -31,6 +31,7 @@
     </div>
 </template>
 <script>
+// 引入子组件
 import navitem1 from "./navitem/navitem1"
 import navitem2 from "./navitem/navitem2"
 import navitem3 from "./navitem/navitem3"
@@ -44,20 +45,22 @@ export default {
         }
     },
     methods:{
+        // 左侧个人中心
         personListShow(){
             this.personListPopup=!this.personListPopup;
         },
+        // 右侧搜索框
         searchShow(){
             this.searchPopup=!this.searchPopup;
         },
+        // 切换页面时自动到顶部
         onClick(name, title) {
             window.scrollTo(0,0);
         }
 
     },
-    components:{
-        navitem1,navitem2,navitem3
-    }
+    // 子组件
+    components:{navitem1,navitem2,navitem3}
 }
 </script>
 <style scoped>
