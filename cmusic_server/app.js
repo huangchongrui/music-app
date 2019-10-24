@@ -65,7 +65,6 @@ pool.query(sql,[uname,upwd],(err,result)=>{
 
 
 //功能二:获取轮播图
-//1:接收GET /product 
 server.get("/carousel",(req,res)=>{
 //6:创建sql语句
 var sql = "SELECT sid,cpic FROM carousel";
@@ -80,7 +79,6 @@ pool.query(sql,(err,result)=>{
 
 
 //功能三:获取推荐歌单
-//1:接收GET /product 
 server.get("/recommendList",(req,res)=>{
 //6:创建sql语句
 var sql = "SELECT linfo,listpic,lnum FROM songlist";
@@ -95,7 +93,6 @@ pool.query(sql,(err,result)=>{
 
 
 //功能四:获取推荐歌曲
-//1:接收GET /product 
 server.get("/recommendMusicList",(req,res)=>{
 //6:创建sql语句
 var sql = "SELECT songName,spic FROM song";
@@ -107,3 +104,28 @@ pool.query(sql,(err,result)=>{
 })
 
 //测试：http://127.0.0.1:4000/recommendMusicList
+
+
+//功能五:获取排行榜
+server.get("/rank",(req,res)=>{
+//6:创建sql语句
+var sql = "SELECT rid,rpic FROM rank";
+//7:执行sql语句
+pool.query(sql,(err,result)=>{
+  if(err)throw err;
+  res.send({code:1,msg:"查询成功",data:result})
+})
+})
+
+
+//功能六:获取详细排行榜
+server.get("/rankdetail",(req,res)=>{
+//6:创建sql语句
+var sql = "SELECT sid,rid,place FROM rankdetail";
+//7:执行sql语句
+pool.query(sql,(err,result)=>{
+  if(err)throw err;
+  res.send({code:1,msg:"查询成功",data:result})
+})
+})
+

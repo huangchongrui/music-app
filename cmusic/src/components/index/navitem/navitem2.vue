@@ -3,11 +3,11 @@
         <!-- 榜单 -->
         <ul class="ranking-list">
             <li class="ranking-item" v-for="(item,i) of rankingList" :key="i">
-                <img src="../../../assets/ranking.png"/>
+                <img :src="`http://127.0.0.1:4000/${item.rpic}`"/>
                 <ul class="ranking-music">
-                    <li><p>{{item.lid}}.{{item.mname}} - {{item.uname}}</p></li>
-                    <li><p>{{item.lid}}.{{item.mname}} - {{item.uname}}</p></li>
-                    <li><p>{{item.lid}}.{{item.mname}} - {{item.uname}}</p></li>
+                    <li><p>1.{{item.mname}} - {{item.uname}}</p></li>
+                    <li><p>2.{{item.mname}} - {{item.uname}}</p></li>
+                    <li><p>3.{{item.mname}} - {{item.uname}}</p></li>
                 </ul>
             </li>
         </ul>
@@ -17,9 +17,16 @@
 export default {
     data(){
         return{
-            rankingList:[{lid:1,mname:"Hi Girl",uname:"马千里马千里马千里马千里马千里马千里马千里马千里马千里马千里马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"},{lid:1,mname:"Hi Girl",uname:"马千里"}]
+            rankingList:[]
         }
-    }
+    },
+    created() {
+        //获取排行榜
+        this.axios.get("/rank")
+        .then(res=>{this.rankingList=res.data.data;});
+        this.axios.get("/rank")
+        .then(res=>{this.rankingList=res.data.data;});
+    },
 }
 </script>
 <style scoped>

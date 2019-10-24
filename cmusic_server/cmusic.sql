@@ -61,11 +61,13 @@ INSERT INTO songlist VALUES
 CREATE TABLE rank(
   rid INT PRIMARY KEY AUTO_INCREMENT,
   rtitle VARCHAR(255),
-  rpic VARCHAR(255)
+  rpic VARCHAR(255),
+  sname VARCHAR(255),
+  uname VARCHAR(255),
 );
 
 INSERT INTO rank VALUES
-(null,"云音乐国电榜","img/rank/rank1.jpg"),
+(null,"云音乐国电榜","img/rank/rank1.jpg",),
 (null,"云音乐说唱榜","img/rank/rank2.jpg"),
 (null,"云音乐新歌榜","img/rank/rank3.jpg"),
 (null,"云音乐ACG音乐榜","img/rank/rank4.jpg"),

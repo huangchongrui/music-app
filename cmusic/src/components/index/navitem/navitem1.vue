@@ -58,7 +58,7 @@ export default {
         .then(res=>{this.recommendList=res.data.data;});
         //获取推荐歌曲
         this.axios.get("/recommendMusicList")
-        .then(res=>{this.recommendMusicList=res.data.data;console.log(this.recommendMusicList)});
+        .then(res=>{this.recommendMusicList=res.data.data;});
     },
 }
 </script>
