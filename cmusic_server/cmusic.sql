@@ -62,18 +62,22 @@ CREATE TABLE rank(
   rid INT PRIMARY KEY AUTO_INCREMENT,
   rtitle VARCHAR(255),
   rpic VARCHAR(255),
-  sname VARCHAR(255),
-  uname VARCHAR(255),
+  sname0 VARCHAR(255),
+  uname0 VARCHAR(255),
+  sname1 VARCHAR(255),
+  uname1 VARCHAR(255),
+  sname2 VARCHAR(255),
+  uname2 VARCHAR(255)
 );
 
 INSERT INTO rank VALUES
-(null,"云音乐国电榜","img/rank/rank1.jpg",),
-(null,"云音乐说唱榜","img/rank/rank2.jpg"),
-(null,"云音乐新歌榜","img/rank/rank3.jpg"),
-(null,"云音乐ACG音乐榜","img/rank/rank4.jpg"),
-(null,"网易原创歌曲榜","img/rank/rank5.jpg"),
-(null,"云音乐热歌榜","img/rank/rank6.jpg"),
-(null,"云音乐飙升榜","img/rank/rank7.jpg");
+(null,"云音乐国电榜","img/rank/rank1.jpg","攀登 (Live)","潘玮柏,G.E.M.邓紫棋,艾热","不得不爱","潘玮柏,弦子","后继者","任然"),
+(null,"云音乐说唱榜","img/rank/rank2.jpg","野狼disco","宝石gem","庆功酒","福克斯,隆历奇","飞行随笔","福克斯,Ice Paper,隆历奇"),
+(null,"云音乐新歌榜","img/rank/rank3.jpg"," Walk On Water","G.E.M.邓紫棋","芒种(南山之南)","黄诗扶","脱焦","秦昊"),
+(null,"云音乐ACG音乐榜","img/rank/rank4.jpg","Lemon","米津玄師","LOSER","米津玄師","空空如也","任然"),
+(null,"网易原创歌曲榜","img/rank/rank5.jpg","芒种(南山之南)","黄诗扶","脱焦","秦昊","家国天下","颜人中"),
+(null,"云音乐热歌榜","img/rank/rank6.jpg","背对背拥抱","林俊杰","齐天","华晨宇","春夏秋冬","张国荣"),
+(null,"云音乐飙升榜","img/rank/rank7.jpg","来自天堂的魔鬼","G.E.M.邓紫棋","All Falls Down","Alan Walker,Noah Cyrus,Digital Farm Animals","Move Your Body","Sia,Alan Walker");
 
 
 #详细排行表

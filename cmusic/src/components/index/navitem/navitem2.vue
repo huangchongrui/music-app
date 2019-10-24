@@ -3,11 +3,13 @@
         <!-- 榜单 -->
         <ul class="ranking-list">
             <li class="ranking-item" v-for="(item,i) of rankingList" :key="i">
+                <!-- 榜单左侧图片 -->
                 <img :src="`http://127.0.0.1:4000/${item.rpic}`"/>
                 <ul class="ranking-music">
-                    <li><p>1.{{item.mname}} - {{item.uname}}</p></li>
-                    <li><p>2.{{item.mname}} - {{item.uname}}</p></li>
-                    <li><p>3.{{item.mname}} - {{item.uname}}</p></li>
+                    <!-- 榜单右侧：歌曲-歌手 -->
+                    <li><p>1.{{item.sname0}} - {{item.uname0}}</p></li>
+                    <li><p>2.{{item.sname1}} - {{item.uname1}}</p></li>
+                    <li><p>3.{{item.sname2}} - {{item.uname2}}</p></li>
                 </ul>
             </li>
         </ul>
@@ -23,9 +25,7 @@ export default {
     created() {
         //获取排行榜
         this.axios.get("/rank")
-        .then(res=>{this.rankingList=res.data.data;});
-        this.axios.get("/rank")
-        .then(res=>{this.rankingList=res.data.data;});
+        .then(res=>{this.rankingList=res.data.data});
     },
 }
 </script>
@@ -50,15 +50,15 @@ export default {
         justify-content: center;
     }
     .ranking-music>li p{
-        font-size:15px;
+        font-size:12px;
         padding:0 20px;
         overflow: hidden;
         text-overflow:ellipsis;
         white-space: nowrap;
-        line-height:30px;
+        line-height:24px;
         text-align:left;
     }
     @media screen and (max-width:576px){
-        .ranking-music>li p{max-width:265px;}
+        .ranking-music>li p{max-width:248px;}
     }
 </style>

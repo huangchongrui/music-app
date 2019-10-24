@@ -5,7 +5,7 @@
             <!-- 左侧弹出层按钮 -->
             <div>
                 <img src="../../assets/personList.png" @click="personListShow">
-                <van-popup v-model="personListPopup" position="left" :style="{ width:'85%',height:'100%'}">
+                <van-popup v-model="personListPopup" position="left" :style="{ width:'85%',height:'100%'}" closeable close-icon-position="top-left">
                     <div>左侧内容</div>
                 </van-popup>
             </div>
@@ -13,7 +13,7 @@
             <!-- 右侧弹出层按钮 -->
             <div>
                 <img src="../../assets/search.png" class="icon-right" @click="searchShow">
-                <van-popup v-model="searchPopup" position="right" :style="{ width:'85%',height:'100%'}">
+                <van-popup v-model="searchPopup" position="right" :style="{ width:'85%',height:'100%'}" closeable close-icon-position="top-left">
                     <div>右侧内容</div>
                 </van-popup>
             </div>

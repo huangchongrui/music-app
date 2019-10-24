@@ -20,7 +20,7 @@
                 <!-- 歌单封面 -->
                 <img :src="`http://127.0.0.1:4000/${item.listpic}`"/>
                 <!-- 歌单介绍 -->
-                <p>{{item.linfo}}</p>
+                <p id="list-p">{{item.linfo}}</p>
             </li>
         </ul>
         <!-- 推荐歌曲 -->
@@ -33,7 +33,7 @@
                     <!-- 歌曲名称 -->
                     <p>{{item.songName}}</p>
                     <!-- 歌手名称 -->
-                    <p>{{item.uname}}</p>
+                    <p>{{item.gname}}</p>
                 </li>
             </ul>
         </lazy-component>
@@ -91,7 +91,6 @@ export default {
         padding: 0 1%;
         font-size:12px;
         font-weight:500;
-        margin-bottom:10px;
     }
     .recommend-num{
         position:absolute;
@@ -106,9 +105,9 @@ export default {
     .recommend-num>img{width:12px}
     .recommend-item>img{width:100%;margin-bottom:5px;}
     .recommend-item>p{
-        line-height:16px;
+        line-height:12px;
         font-size:12px;
-        height:32px;
+        height:18px;
         overflow: hidden;
         text-overflow:ellipsis;
     }
@@ -117,5 +116,10 @@ export default {
         overflow: hidden;
         text-overflow:ellipsis;
         white-space: nowrap;
+    }
+    #list-p{
+        height: 29px;
+        margin-bottom: 10px;
+        line-height:16px;
     }
 </style>

@@ -95,7 +95,7 @@ pool.query(sql,(err,result)=>{
 //功能四:获取推荐歌曲
 server.get("/recommendMusicList",(req,res)=>{
 //6:创建sql语句
-var sql = "SELECT songName,spic FROM song";
+var sql = "SELECT songName,spic,sid,gname FROM song,singer WHERE song.gid=singer.gid";
 //7:执行sql语句
 pool.query(sql,(err,result)=>{
   if(err)throw err;
@@ -109,7 +109,7 @@ pool.query(sql,(err,result)=>{
 //功能五:获取排行榜
 server.get("/rank",(req,res)=>{
 //6:创建sql语句
-var sql = "SELECT rid,rpic FROM rank";
+var sql = "SELECT rpic,sname0,sname1,sname2,uname0,uname1,uname2 FROM rank";
 //7:执行sql语句
 pool.query(sql,(err,result)=>{
   if(err)throw err;
@@ -122,6 +122,18 @@ pool.query(sql,(err,result)=>{
 server.get("/rankdetail",(req,res)=>{
 //6:创建sql语句
 var sql = "SELECT sid,rid,place FROM rankdetail";
+//7:执行sql语句
+pool.query(sql,(err,result)=>{
+  if(err)throw err;
+  res.send({code:1,msg:"查询成功",data:result})
+})
+})
+
+
+//功能七:获取歌手
+server.get("/singers",(req,res)=>{
+//6:创建sql语句
+var sql = "SELECT gname,gpic,pinyin FROM singer";
 //7:执行sql语句
 pool.query(sql,(err,result)=>{
   if(err)throw err;

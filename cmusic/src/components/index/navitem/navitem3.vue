@@ -1,15 +1,15 @@
 <template>
     <div class="container">
         <!-- 歌手列表 -->
-        <van-index-bar :sticky-offset-top=96 highlight-color="#77ccf4" :sticky="false">
+        <van-index-bar :sticky-offset-top=96 highlight-color="#77ccf4" :sticky="false" :index-list="indexList">
             <div v-for="(item,i) of indexList" :key="i">
                 <van-index-anchor :index=item />
-                <div v-for="(item2,i2) of singers">
+                <div v-for="(item2,i2) of singers[i]" :key="i2">
                     <div class="singer">
                         <!-- 歌手图片 -->
-                        <img src="../../../assets/recommend-item-img.png" />
+                        <img :src="`http://127.0.0.1:4000/${item2.gpic}`" />
                         <!-- 歌手名字 -->
-                        <span>{{item2.sname}}</span>
+                        <span>{{item2.gname}}</span>
                     </div>
                 </div>
             </div>
@@ -20,10 +20,26 @@
 export default {
     data(){
         return{
-            indexList:["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],
-            singers:[{src:"../../../assets/recommend-item-img.png",sname:"薛之谦"},{src:"../../../assets/recommend-item-img.png",sname:"邓紫棋"}]
+            indexList:["A","B","C","D","E","F","G","H","I","J","K","L","M","P","Q","R","S","T","W","X","Y","Z"],
+            singers:[]
         }
-    }
+    },
+    created() {
+        this.axios.get("/singers")
+        .then(res=>{
+            var data=res.data.data;
+            for(var i=0;i<this.indexList.length;i++){
+                var singer=[];
+                for(var j=0;j<data.length;j++){
+                    if(this.indexList[i]==data[j].pinyin){
+                        var str=`{"gname":"${data[j].gname}","gpic":"${data[j].gpic}"}`;
+                        singer.push(JSON.parse(str));
+                    }
+                }
+                if(singer.length!=0){this.singers.push(singer);}
+            }
+            });
+    },
 }
 </script>
 <style scoped>
@@ -53,7 +69,7 @@ export default {
     }
     .container /deep/ .van-index-bar__sidebar{top:58%;}
     .container /deep/ .van-index-bar__index{
-        padding-bottom:8px;
+        padding-bottom:12px;
         font-weight:600;
     }
 </style>
