@@ -13,3 +13,4 @@ yarn-error.log*
 *.njsproj
 *.sln
 cmusic_server
+*.mp3
