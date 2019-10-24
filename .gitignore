@@ -13,5 +13,9 @@ yarn-error.log*
 *.njsproj
 *.sln
 cmusic_server
+<<<<<<< HEAD
 *.mp3
 img
+=======
+*.mp3
+>>>>>>> huangchongrui
