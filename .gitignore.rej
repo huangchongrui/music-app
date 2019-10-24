@@ -1,0 +1,9 @@
+diff a/.gitignore b/.gitignore	(rejected hunks)
+@@ -13,5 +13,6 @@
+ *.njsproj
+ *.sln
+ cmusic_server
++<<<<<<< HEAD
+ *.mp3
+\ No newline at end of file
+ img
