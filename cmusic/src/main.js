@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import MintUI from 'mint-ui'
 
+// 引入vant部分功能模块
+import { Tab, Tabs,Popup,Swipe,SwipeItem,Lazyload,IndexBar,IndexAnchor,Cell } from 'vant'
 // 引入vant部分功能模块样式
 import 'vant/lib/tab/style'
 import 'vant/lib/tabs/style'
