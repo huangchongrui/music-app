@@ -18,7 +18,7 @@
                     <span>{{item.lnum}}万</span>
                 </div>
                 <!-- 歌单封面 -->
-                <img :src="`http://127.0.0.1:4000/${item.listpic}`"/>
+                <img :src="`http://127.0.0.1:4000/`"/>
                 <!-- 歌单介绍 -->
                 <p id="list-p">{{item.linfo}}</p>
             </li>

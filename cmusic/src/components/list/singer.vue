@@ -2,7 +2,7 @@
     <div class="singer" @touchmove="bg_rgba">
         <div class="top">
             <!-- 添加背景图片 -->
-            <img :src="'http://127.0.0.1:4000/'+singer[0].gpic.slice(4,)" alt="">
+            <img :src="'http://127.0.0.1:4000/'+singer[0].gpic" alt="">
             <mt-header fixed class="herderAll" >
             <router-link to="/" slot="left">
                 <mt-button icon="back">{{title}}</mt-button>
