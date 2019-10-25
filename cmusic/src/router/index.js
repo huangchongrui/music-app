@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import search from '@/components/search/search.vue'
 import $ from 'jquery'
 import SongSheet from '../components/list/SongSheet.vue'
 import singer from '../components/list/singer.vue'
@@ -11,12 +10,16 @@ import Index from "@/components/index/index"
 import Navitem1 from "@/components/index/navitem/navitem1"
 import Navitem2 from "@/components/index/navitem/navitem2"
 import Navitem3 from "@/components/index/navitem/navitem3"
+import searchHead from '@/components/searchHead/searchHead'
+import search from '@/components/search/search'
+import search2 from '@/components/search/search2'
+import Player from '@/components/player/Player'
+
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {path:'/search',component:search},
     {path: '/',redirect: { name: 'index' }},
     {path: '/index',name: 'index',component: Index},
     {path: '/navitem1',name: 'Navitem1',component: Navitem1},
@@ -26,5 +29,9 @@ export default new Router({
     {path:'/singer',component:singer},
     {path:'/CollectionLately',component:CollectionLately},
     {path:'/play',component:play},
+    {path:'/searchHead',component:searchHead},
+    {path:'/search',component:search},
+    {path:'/search2',component:search2},
+    {path:'/player',component:Player},
   ]
 })

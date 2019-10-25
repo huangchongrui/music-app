@@ -33,7 +33,7 @@
         export default {
             data(){
                 return{
-                    singer:[],
+                    singer:[{"gpic":"img/singer/singer11.jpg"}],
                     song:[],
                     title:"歌手",
                 }
@@ -62,7 +62,7 @@
                     var url="detaSingerSong";
                     this.axios.get(url).then(res=>{
                         this.song=res.data;
-                        console.log(res);
+                        // console.log(res);
                     });
                 },
                 loadsiger(){

@@ -1,43 +1,22 @@
 <template>
     <div>
-        <!-- 搜索框 -->
-        <div class="search-head">
-            <img class="back" src="../../assets/back.png" alt="">
-            <input type="text" placeholder="搜索歌曲、歌手">
-            <img class="clean" @click="clean" src="../../assets/close.png" alt="">
-        </div>
         <!-- 热门搜索 -->
         <div class="hot">
             <div class="hot-search">热门搜索</div>
             <div @click="replace" class="content">
-                <span>Make it Right</span>
-                <span>谈恋爱不如先养猫</span>
-                <span>I Love You 3000 Ⅱ</span>
-                <span>大田后生仔</span>
-                <span>星子</span>
-                <span>痴情玫瑰花</span>
-                <span>变成陌生人</span>
-                <span>说好不哭</span>
+                <span v-for="(item,i) of hotsearch" :key="i">{{item.content}}</span>
             </div>
         </div>
         <!-- 搜索历史 -->
         <div class="del">
-            <div class="del-history">
+            <div class="del-history" v-show="bool=='true'">
                 <span>搜索历史</span>
-                <img src="../../assets/delete.png" alt="">
+                <img @click="delAll" src="../../assets/delete.png" alt="">
             </div>
-            <div class="content">
+            <div class="content" v-for="(item,index) of history">
                 <div>
-                    <span>阿卡丽</span>
-                    <span>×</span>
-                </div>
-                <div>
-                    <span>阿卡丽</span>
-                    <span>×</span>
-                </div>
-                <div>
-                    <span>阿卡丽</span>
-                    <span>×</span>
+                    <span>{{item.content}}</span>
+                    <a @click="del(index)">×</a>
                 </div>
             </div>
         </div>
@@ -48,53 +27,61 @@
 export default {
     data() {
         return {
-            
+            history:[],     //搜索历史记录
+            hotsearch:[],
+            bool:"true"
         }
     },
+    created(){
+        //页面创建时获取热门搜索,搜索记录
+        // 1.创建url
+        var url="hotSearch";
+        var url2="search";
+        // 2.发送ajax请求
+        this.axios.get(url)
+        .then(res=>{
+        // 3.将服务器返回得数据保存hotsearch
+            var hots = res.data;
+            this.hotsearch = hots;
+        })
+        //搜索记录查询
+        this.axios.get(url2)
+        .then(res=>{
+            var search = res.data;
+            this.history = search;
+            if(this.history.length==0){
+                this.bool=false;
+            }
+        })
+    },
     methods: {
-        //输入框发生改变时自动执行
-        change(){
-            console.log(1);
-        },
-        //清除输入框内容
-        clean(){
-            var ipt = $(".search-head input");
-            ipt.val("","");
-        },
         //标签替换文本框内容
-        replace(){
-            var ipt = $(".search-head input");
-            var con = $(".hot .content");
-            con.on("click",".hot .content span",function(){
-                console.log($(this));
-            })
-        }
+        replace(e){
+            if(e.target.nodeName=="SPAN"){
+            var str = e.target.innerHTML;
+            this.$store.state.inputVal=str;
+            }
+        },
+        //单个删除搜索记录
+        del(index){
+            this.history.splice(index,1);
+            //如果删完记录了
+            if(this.history.length<1){
+                this.bool=false;
+            }
+        },
+        //删除所有记录
+        delAll(){
+            this.history.splice(0);
+            //并且隐藏搜索历史
+            this.bool=false;
+        },
     },
 }
 </script>
 
 <style scoped>
     *{margin:0;padding:0;}
-    .search-head{
-        background: #77CCF4;
-        display: flex;
-        justify-content: space-between;
-        padding: 5px;
-    }
-    input{
-        width:80%;
-        border:0;
-        background: #77CCF4;
-        outline: 0;
-        color: #fff;
-    }
-    ::-webkit-input-placeholder{
-        color: #eee;
-        opacity: .8;
-    }
-    img{
-        width:30px;height:30px;
-    }
     .hot{
         width:90%;
         margin:0 auto;
@@ -138,7 +125,7 @@ export default {
         justify-content: space-between;
         margin:10px 0 0 5px;
     }
-    .del .content div span:last-child{
+    .del .content div a{
         margin-right:7px;
     }
 </style>

@@ -1,9 +1,6 @@
 <template>
   <div class="collectionLately">
     <div class="top">
-        <router-link to="/" slot="left"> 
-            <mt-button icon="back"></mt-button>
-        </router-link>
         <mt-navbar v-model="active" class="tab">
             <mt-tab-item id="tab-container1" class="bbb">我的收藏</mt-tab-item>
             <mt-tab-item id="tab-container2" class="bbb">最近播放</mt-tab-item>

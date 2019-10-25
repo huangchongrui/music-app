@@ -3,18 +3,18 @@
         <!-- 头部 -->
         <header>
             <!-- 左侧弹出层按钮 -->
-            <div>
+            <div class="left-btn">
                 <img src="../../assets/personList.png" @click="personListShow">
-                <van-popup v-model="personListPopup" position="left" :style="{ width:'85%',height:'100%'}" closeable close-icon-position="top-left">
-                    <div>左侧内容</div>
+                <van-popup v-model="personListPopup" position="left" :style="{ width:'80%',height:'100%'}">
+                    <CollectionLately></CollectionLately>
                 </van-popup>
             </div>
             <h4>VMUSICJIN</h4>
             <!-- 右侧弹出层按钮 -->
             <div>
                 <img src="../../assets/search.png" class="icon-right" @click="searchShow">
-                <van-popup v-model="searchPopup" position="right" :style="{ width:'85%',height:'100%'}" closeable close-icon-position="top-left">
-                    <div>右侧内容</div>
+                <van-popup v-model="searchPopup" position="right" :style="{ width:'100%',height:'100%'}"  closeable close-icon="http://127.0.0.1:4000/img/back.png" close-icon-position="top-left">
+                    <searchHead></searchHead>
                 </van-popup>
             </div>
         </header>
@@ -35,6 +35,8 @@
 import navitem1 from "./navitem/navitem1"
 import navitem2 from "./navitem/navitem2"
 import navitem3 from "./navitem/navitem3"
+import searchHead from "../searchHead/searchHead"
+import CollectionLately from "../list/CollectionLately"
 export default {
     data(){
         return {
@@ -60,7 +62,7 @@ export default {
 
     },
     // 子组件
-    components:{navitem1,navitem2,navitem3}
+    components:{navitem1,navitem2,navitem3,searchHead,CollectionLately}
 }
 </script>
 <style scoped>
@@ -88,4 +90,6 @@ export default {
         padding-top:44px;
      }
      .index /deep/ .van-tab__pane{padding-top:52px}
+     .index /deep/ .van-image__img{width:26px;height:26px;margin-top:-10px;margin-left:-10px;}
+     .left-btn /deep/ .van-image__img{position:fixed;z-index:11}
 </style>

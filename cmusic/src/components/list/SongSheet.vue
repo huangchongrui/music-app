@@ -2,7 +2,7 @@
     <div class="SongSheet" @touchmove="bg_rgba">
         <div class="top">
             <!-- 添加背景图片 -->
-            <img :src="'http://127.0.0.1:4000/'+packName[0].listpic.slice(4,)" alt="">
+            <img :src="'http://127.0.0.1:4000/'+packName[0].listpic" alt="">
             <mt-header fixed class="herderAll" >
             <router-link to="/" slot="left">
                 <mt-button icon="back">{{title}}</mt-button>
@@ -32,11 +32,12 @@
     </div>
 </template>
 <script>
+    import $ from 'jquery';
         export default {
             data(){
                 return{
                     song:[],
-                    packName:[],
+                    packName:[{"listpic":"img/songlist/songlist11.jpg"}],
                     title:"歌单"
                 }
             },
@@ -49,7 +50,6 @@
             methods:{
                 bg_rgba(){
                     var Height = $(window).scrollTop();
-                    console.log(Height);
                     if(Height>0){
                         var m =Height/ 212;
                         $(".herderAll").css("background", "rgba(119, 204, 244, " + m + ")");
@@ -64,7 +64,7 @@
                     var url="detaPackName";
                     this.axios.get(url).then(res=>{
                         this.packName=res.data;
-                        console.log(res);
+                        if(this.packName==undefined){this.packName=[]}
                     });
                 },
                 loadsiger(){
