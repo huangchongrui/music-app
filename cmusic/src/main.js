@@ -3,6 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+Vue.use(MintUI)
+import 'mint-ui/lib/style.css'
+
 // 引入vant部分功能模块
 import { Tab, Tabs,Popup,Swipe,SwipeItem,Lazyload,IndexBar,IndexAnchor,Cell } from 'vant'
 // 引入vant部分功能模块样式
