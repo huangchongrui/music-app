@@ -1,64 +1,66 @@
 <template>
-  <div>
-    <div id="player" class="player" v-show="fullScreen">
-      <div class="background">
-        <div class="filter"></div>
-        <img src="https://p3fx.kgimg.com/stdmusic/20191010/20191010191203148524.jpg" width="100%" height="100%"/>
-      </div>
-      <div class="top">
-        <div class="back" @click="fullScreen=!fullScreen">
-          <!--返回按钮-->
-          <i class="iconfont icon-xiangzuo"></i>
+  <div v-show="this.$store.getters.getplayList.length>0">
+    <transition name="normal">
+      <div id="player" class="player" v-show="this.$store.getters.getfullScreen">
+        <div class="background">
+          <div class="filter"></div>
+          <img src="https://p3fx.kgimg.com/stdmusic/20191010/20191010191203148524.jpg" width="100%" height="100%"/>
         </div>
-        <!--歌名和歌手-->
-        <div class="song-info">
-          <div class="title"><span>野狼Disco</span></div>
-          <div class="singer"><span>宝石Gem、陈伟霆</span><i class="iconfont icon-xiangyou"></i></div>
+        <div class="top">
+          <div class="back">
+            <!--返回按钮-->
+            <i class="iconfont icon-xiangzuo" @click="changefullScreen"></i>
+          </div>
+          <!--歌名和歌手-->
+          <div class="song-info">
+            <div class="title"><span>野狼Disco</span></div>
+            <div class="singer"><span>宝石Gem、陈伟霆</span><i class="iconfont icon-xiangyou"></i></div>
+          </div>
+          <!--分享-->
+          <div class="share">
+            <i class="iconfont icon-fenxiang-1" @click="shareShow=!shareShow"></i>
+          </div>
         </div>
-        <!--分享-->
-        <div class="share" @click="shareShow=!shareShow">
-          <i class="iconfont icon-fenxiang-1"></i>
-        </div>
-      </div>
-      <div class="middle">
-        <div class="middle-pic" v-show="currentShow === 'cd'">
-          <div class="cd-wrapper">
-            <div class="cd" :class="cdCls">
-              <img src="https://p3fx.kgimg.com/stdmusic/20191010/20191010191203148524.jpg" class="image"/>
+        <div class="middle">
+          <div class="middle-pic" v-show="currentShow === 'cd'">
+            <div class="cd-wrapper">
+              <div class="cd" :class="cdCls">
+                <img src="https://p3fx.kgimg.com/stdmusic/20191010/20191010191203148524.jpg" class="image"/>
+              </div>
             </div>
           </div>
+          <!--歌词部分-->
         </div>
-        <!--歌词部分-->
-      </div>
-      <div class="bottom">
-        <div class="btop">
-          <!--收藏这里要变换样式-->
-          <div><i style="font-size:20px;color:#ddd;"class="iconfont icon-shoucang1"></i></div>
-          <div><i style="font-size:20px;color:#ddd;"class="iconfont icon-xiazai"></i></div>
-          <div><i style="font-size:20px;color:#ddd;"class="iconfont icon-yinxiao"></i></div>
-          <div><i style="font-size:20px;color:#ddd;"class="iconfont icon-pinglun"></i></div>
-          <div @click="songInfoShow=!songInfoShow"><i style="font-size:20px;color:#ddd;"class="iconfont icon-xiangxixinxi"></i>
+        <div class="bottom">
+          <div class="btop">
+            <!--收藏这里要变换样式-->
+            <div><i style="font-size:20px;color:#ddd;" class="iconfont icon-shoucang1"></i></div>
+            <div><i style="font-size:20px;color:#ddd;" class="iconfont icon-xiazai"></i></div>
+            <div><i style="font-size:20px;color:#ddd;" class="iconfont icon-yinxiao"></i></div>
+            <div><i style="font-size:20px;color:#ddd;" class="iconfont icon-pinglun"></i></div>
+            <div><i style="font-size:20px;color:#ddd;" class="iconfont icon-xiangxixinxi" @click="songInfoShow=!songInfoShow"></i>
+            </div>
+          </div>
+          <div class="bmiddle">
+            <!--进度条-->
+            <span class="ltime">00:00</span>
+            <div class="progress-bar">
+              <!--进度条组件-->
+            </div>
+            <span class="rtime">00:00</span>
+          </div>
+          <div class="bbottom">
+            <div><i style="color:#fff;font-size:20px;" class="iconfont icon-liebiaoxunhuan"></i></div>
+            <div><i style="color:#fff;font-size:20px;" class="iconfont icon-shangyishoushangyige"></i></div>
+            <div><i style="color:#fff;font-size:40px;" class="iconfont" :class="changeImg" @click.stop="changeplaying"></i></div>
+            <div><i style="color:#fff;font-size:20px;" class="iconfont icon-xiayigexiayishou"></i></div>
+            <div><i style="color:#fff;font-size:20px;" class="iconfont icon-bofangliebiao" @click.stop="playListShow=!playListShow;"></i></div>
           </div>
         </div>
-        <div class="bmiddle">
-          <!--进度条-->
-          <span class="ltime">00:00</span>
-          <div class="progress-bar">
-            <!--进度条组件-->
-          </div>
-          <span class="rtime">00:00</span>
-        </div>
-        <div class="bbottom">
-          <div><i style="color:#fff;font-size:20px;" class="iconfont icon-liebiaoxunhuan"></i></div>
-          <div><i style="color:#fff;font-size:20px;" class="iconfont icon-shangyishoushangyige"></i></div>
-          <div @click="changeplaying"><i style="color:#fff;font-size:40px;" class="iconfont" :class="changeImg"></i></div>
-          <div><i style="color:#fff;font-size:20px;" class="iconfont icon-xiayigexiayishou"></i></div>
-          <div @click="playListShow=!playListShow;"><i style="color:#fff;font-size:20px;" class="iconfont icon-bofangliebiao"></i></div>
-        </div>
       </div>
-    </div>
+    </transition>
     <!--迷你播放器-->
-    <div class="mini-player" v-show="!fullScreen" @click="fullScreen=!fullScreen">
+    <div class="mini-player" v-show="this.$store.getters.getfullScreen==false" @click.stop="changefullScreen">
       <div class="icon">
         <img :class="cdCls" src="https://p3fx.kgimg.com/stdmusic/20191010/20191010191203148524.jpg" width="40" height="40">
       </div>
@@ -66,11 +68,11 @@
         <h2 class="name">野狼Disco</h2>
         <div class="desc">宝石Gem、陈伟霆</div>
       </div>
-      <div class="control" @click.stop="changeplaying">
-        <i style="color:#000;font-size:30px;" class="iconfont" :class="changeImg"></i>
+      <div class="control">
+        <i style="color:#000;font-size:30px;" class="iconfont" :class="changeImg" @click.stop="changeplaying"></i>
       </div>
-      <div class="control" @click.stop="playListShow=!playListShow;">
-        <i style="color:#000;font-size:30px;" class="iconfont icon-bofangliebiao"></i>
+      <div class="control">
+        <i style="color:#000;font-size:30px;" class="iconfont icon-bofangliebiao" @click.stop="playListShow=!playListShow;"></i>
       </div>
     </div>
     <van-action-sheet v-model="shareShow" title="分享">
@@ -95,29 +97,34 @@ export default {
       songInfoShow:false,
       playListShow:false,
       currentShow:"cd",
-      playing:false,
-      fullScreen:true
     }
   },
   methods: {
     changeplaying(){
-      this.playing=!this.playing;
+      this.$store.commit("toggleplaying");
+    },
+    changefullScreen(){
+      console.log("play"+this.$store.getters.getfullScreen)
+      this.$store.commit("togglefullScreen");
     }
   },
   computed: {
     cdCls () {
-      return this.playing ? 'play' : 'play pause'
+      return this.$store.getters.getplaying==true ? 'play' : 'play pause'
     },
     changeImg(){
-      return this.playing ? 'icon-zanting' : 'icon-bofang'
+      return this.$store.getters.getplaying==true ? 'icon-zanting' : 'icon-bofang'
     }
   },
 }
 </script>
+
+
 <style scoped>
 .player{
   background-image: linear-gradient(to bottom,#000 0%,#333 100%);
   position: fixed;
+  width:100%;
   left: 0;
   right: 0;
   top: 0;
@@ -442,6 +449,7 @@ export default {
   flex:1;
   overflow:hidden;
   padding-left:2%;
+  text-align:left;
 }
 
 .text .name{
@@ -463,4 +471,12 @@ export default {
   margin-right:2%;
 }
 
+/* transition动画 */
+.normal-enter-active,
+.normal-leave-active {
+  transition: opacity 0.3s;
+}
+.normal-enter,.normal-leave-to {
+  opacity: 0;
+}
 </style>

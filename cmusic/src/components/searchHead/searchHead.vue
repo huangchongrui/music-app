@@ -2,11 +2,12 @@
     <div>
         <!-- 搜索框 -->
         <div class="search-head">
-            <input v-model="inputVal" type="text" placeholder="搜索歌曲、歌手" v-on:input="search">
-            <img class="clean" @click="clean" src="../../assets/close.png" alt="" v-show="$store.getters.getVal!=''">
+            <img @click="back" class="back" src="../../assets/back.png" alt="">
+            <input v-model="Val" type="text" placeholder="搜索歌曲、歌手" >
+            <img class="clean" @click="clean" src="../../assets/close.png" alt="">
         </div>
         <!-- 调用子组件 -->
-        <search v-if="inputVal==''"></search>
+        <search v-if="Val==''"></search>
         <search2 v-else></search2>
     </div>
 </template>
@@ -21,8 +22,13 @@ export default {
         "search":search,
         "search2":search2
     },
-    computed: {
-        inputVal:{
+    data() {
+        return {
+
+        }
+    },
+    computed:{
+        Val:{   //获取和设置vuex全局输入框变量
             get(){
                 return this.$store.state.inputVal;
             },
@@ -31,38 +37,35 @@ export default {
             }
         }
     },
-    data() {
-        return {
+    watch: {    //监听输入框变化进行搜索
+        Val(newVal,oldVal){
+            clearTimeout(this.timer);
+            this.timer = setTimeout(()=>{
+                //获取输入内容
+                var $val = newVal;
+                //创建url
+                var url = "find";
+                var obj = {val:$val};
+                this.axios.get(url,{params:obj})
+                .then(res=>{
+                    this.$store.state.searchList = res;
+                })
+            },800)
         }
     },
     methods: {
         //返回首页
         back(){
-            history.go(-1);
+            this.$router.push('/index');
         },
         //输入框发生改变时自动执行搜索功能
-        search(){
-            clearTimeout(this.timer);
-            this.timer = setTimeout(()=>{
-                this.find();
-            },800)
-        },
+
         //清除输入框内容
         clean(){
-            this.inputVal=""
+            this.Val="";
         },
         //搜索功能
-        find(){
-            //获取输入内容
-            var $val = this.inputVal;
-            //创建url
-            var url = "find";
-            var obj = {val:$val};
-            this.axios.get(url,{params:obj})
-            .then(res=>{
-                this.$store.state.searchList = res;
-            })
-        }
+
     }
 }
 </script>
@@ -73,8 +76,7 @@ export default {
         background: #77CCF4;
         display: flex;
         justify-content: space-between;
-        padding: 5px 5px 5px 30px;
-        height:40px;
+        padding: 5px;
     }
     input{
         width:80%;

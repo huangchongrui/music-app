@@ -1,23 +1,38 @@
 <template>
   <div id="app">
-    <router-view/>
+    <transition name="fadel">
+      <router-view/>
+    </transition>
+    <player></player>
   </div>
 </template>
 
 <script>
+import player from "./components/player/Player";
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    player
+  },
 }
 </script>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;color: #2e3030;letter-spacing: 2px;}
+*{margin:0;padding:0;box-sizing:border-box;letter-spacing: 2px;}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  /*margin-top: 60px;*/
+}
+/* 子路由进去动画 */
+.fade1-enter-active{
+  transition: all 0.2s;
+}
+.fade1-enter{
+  opacity: 0;
+  transform: translate3d(20%, 0, 0);
+}
+.fade1-enter{
+  opacity: 0.9;
 }
 </style>
