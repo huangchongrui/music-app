@@ -38,12 +38,13 @@
                 return{
                     song:[],
                     packName:[{"listpic":"img/songlist/songlist11.jpg"}],
-                    title:"歌单"
+                    title:"歌单",
+                    lid:1
                 }
             },
              created(){
-                this.loadsong(),
-                this.loadsiger()
+                this.loadsiger(),
+                this.loadsong()
             },
             computed:{
             },
@@ -61,9 +62,12 @@
                     };
                 },
                  loadsong(){
+                    this.lid=this.$route.params.lid;
+                    console.log(this.lid);
                     var url="detaPackName";
-                    this.axios.get(url).then(res=>{
+                    this.axios.get(url,{params:{lid:this.lid}}).then(res=>{
                         this.packName=res.data;
+                        console.log(this.packName)
                         if(this.packName==undefined){this.packName=[]}
                     });
                 },

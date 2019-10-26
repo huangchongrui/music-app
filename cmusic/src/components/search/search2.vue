@@ -20,9 +20,7 @@ export default {
     computed: {
         list:{
             get(){
-                var list=this.$store.state.searchList.data;
-                if(list==undefined){list=[]}
-                return list==0 ? [{songName:"请换个搜索词",gname:"您输入的这个真没有啊"}] : list;
+                return this.$store.state.searchList.data;
             },
         }
     },

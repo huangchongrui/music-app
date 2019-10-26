@@ -18,7 +18,7 @@
                     <span>{{item.lnum}}万</span>
                 </div>
                 <!-- 歌单封面 -->
-                <img :src="`http://127.0.0.1:4000/${item.listpic}`"/>
+                <img :src="`http://127.0.0.1:4000/${item.listpic}`" :data-lid="item.lid" @click="toSongSheet"/>
                 <!-- 歌单介绍 -->
                 <p id="list-p">{{item.linfo}}</p>
             </li>
@@ -59,6 +59,12 @@ export default {
         //获取推荐歌曲
         this.axios.get("/recommendMusicList")
         .then(res=>{this.recommendMusicList=res.data.data;});
+    },
+    methods: {
+        toSongSheet(e){
+            console.log(e.target.dataset.lid)
+            // this.$router.push({name:"SongSheet",params:{lid:e.target.dataset.lid}})
+        }
     },
 }
 </script>
