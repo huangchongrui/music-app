@@ -7,9 +7,9 @@
                 <div v-for="(item2,i2) of singers[i]" :key="i2">
                     <div class="singer">
                         <!-- 歌手图片 -->
-                        <img :src="`http://127.0.0.1:4000/${item2.gpic}`" />
+                        <img :src="`http://127.0.0.1:4000/${item2.gpic}`" :data-i="`${item2.gid}`" @click="toSinger"/>
                         <!-- 歌手名字 -->
-                        <span>{{item2.gname}}</span>
+                        <span  :data-i="`${item2.gid}`" @click="toSinger">{{item2.gname}}</span>
                     </div>
                 </div>
             </div>
@@ -32,13 +32,18 @@ export default {
                 var singer=[];
                 for(var j=0;j<data.length;j++){
                     if(this.indexList[i]==data[j].pinyin){
-                        var str=`{"gname":"${data[j].gname}","gpic":"${data[j].gpic}"}`;
+                        var str=`{"gname":"${data[j].gname}","gpic":"${data[j].gpic}","gid":"${data[j].gid}"}`;
                         singer.push(JSON.parse(str));
                     }
                 }
                 if(singer.length!=0){this.singers.push(singer);}
             }
             });
+    },
+    methods: {
+        toSinger(e){
+             this.$router.push({name:"singer",params:{gid:e.target.dataset.i}})
+        }
     },
 }
 </script>
@@ -63,7 +68,7 @@ export default {
         border-radius: 3px;
     }
     .singer>span{
-        margin-left: 20px;
+        padding:22px 191px 22px 20px;
         color: #2e3030;
         font-size: 14px;
     }

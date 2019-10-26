@@ -19,10 +19,10 @@
             </div>
             <div class="listAll" v-for="(item,i) of song" :key="i">
                 <div class="list">
-                    <div class="number"><p>{{i+1}}</p></div>
+                    <div class="number"><p :data-i=i @click="toPlayer">{{i+1}}</p></div>
                     <div class="content">
-                        <p class="songName">{{item.songName}}</p>
-                        <p class="singerName">{{item.song.slice(4,).split("-")[0]}}</p>
+                        <p class="songName" :data-i=i @click="toPlayer">{{item.songName}}</p>
+                        <p class="singerName" :data-i=i @click="toPlayer">{{item.song.slice(4,).split("-")[0]}}</p>
                     </div>
                 </div>
             </div>
@@ -36,6 +36,7 @@
                     singer:[{"gpic":"img/singer/singer11.jpg"}],
                     song:[],
                     title:"歌手",
+                    gid:11
                 }
             },
             created(){
@@ -47,7 +48,6 @@
             methods:{
                 bg_rgba(){
                     var Height = $(window).scrollTop();
-                    // console.log(Height);
                     if(Height>0){
                         var m =Height/ 212;
                         $(".herderAll").css("background", "rgba(119, 204, 244, " + m + ")");
@@ -59,18 +59,22 @@
                     }
                 },
                 loadsong(){
+                    this.gid=this.$route.params.gid;
                     var url="detaSingerSong";
-                    this.axios.get(url).then(res=>{
+                    this.axios.get(url,{params:{gid:this.gid}}).then(res=>{
                         this.song=res.data;
-                        // console.log(res);
                     });
                 },
                 loadsiger(){
+                    this.gid=this.$route.params.gid;
                     var url="detaSingerSinger";
-                    this.axios.get(url).then(res=>{
-                        console.log(res);
+                    this.axios.get(url,{params:{gid:this.gid}}).then(res=>{
                         this.singer=res.data;
                     });
+                },
+                toPlayer(e){
+                    console.log(this.song,e.target.dataset.i);
+                     this.$store.commit("setAllList",{list:this.song,index:e.target.dataset.i})
                 }
             }
         }

@@ -21,11 +21,11 @@
                     <span>播放全部<span class="miniFont">(共{{song.length}}首)</span></span>
                 </p>
             </div>
-            <div class="list" v-for="(item,index) of song" :key="index">
-                <div class="number"><p>{{index+1}}</p></div>
+            <div class="list" v-for="(item,index) of song" :key="index" :data-i=index @click="toPlayer">
+                <div class="number" :data-i=index @click="toPlayer"><p :data-i=index @click="toPlayer">{{index+1}}</p></div>
                 <div class="content">
-                    <p class="songName">{{item.songName}}</p>
-                    <p class="singerName">{{item.song.slice(4,).split("-")[0]}}</p>
+                    <p class="songName" :data-i=index @click="toPlayer">{{item.songName}}</p>
+                    <p class="singerName" :data-i=index @click="toPlayer">{{item.song.slice(4,).split("-")[0]}}</p>
                 </div>
             </div>
         </div>
@@ -63,20 +63,22 @@
                 },
                  loadsong(){
                     this.lid=this.$route.params.lid;
-                    console.log(this.lid);
                     var url="detaPackName";
                     this.axios.get(url,{params:{lid:this.lid}}).then(res=>{
                         this.packName=res.data;
-                        console.log(this.packName)
                         if(this.packName==undefined){this.packName=[]}
                     });
                 },
                 loadsiger(){
+                    this.lid=this.$route.params.lid;
                     var url="detaPackSong";
-                    this.axios.get(url).then(res=>{
-                        console.log(res);
+                    this.axios.get(url,{params:{lid:this.lid}}).then(res=>{
                         this.song=res.data;
                     });
+                },
+                toPlayer(e){
+                    console.log(this.song,e.target.dataset.i)
+                     this.$store.commit("setAllList",{list:this.song,index:e.target.dataset.i})
                 }
             }
         }

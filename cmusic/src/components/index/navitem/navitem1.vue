@@ -3,8 +3,8 @@
         <!-- 轮播图，只在第一个导航中显示 -->
         <div class="carousel">
             <van-swipe :autoplay="3000">
-                <van-swipe-item v-for="(item, index) in carousels" :key="index">
-                    <img :src="`http://127.0.0.1:4000/${item.cpic}`" class="carousel-img"/>
+                <van-swipe-item v-for="(item, index) in carousels" :key="index" >
+                    <img :src="`http://127.0.0.1:4000/${item.cpic}`" class="carousel-img" :data-i="`{songName:${item.songName},spic:${item.songName},sid:${item.sid},gname:${item.gname},song:${item.song}}`" @click="carouselToSongSheet"/>
                 </van-swipe-item>
             </van-swipe>
         </div>
@@ -12,15 +12,15 @@
         <div class="recommend">推荐歌单</div>
         <ul class="recommend-list">
             <li class="recommend-item" v-for="(item,i) of recommendList" :key="i">
-                <div class="recommend-num">
-                    <img src="../../../assets/earphone.png"/>
+                <div class="recommend-num" :data-i=i+1 @click="recommendToSongSheet">
+                    <img src="../../../assets/earphone.png" :data-i=i+1 @click="recommendToSongSheet"/>
                     <!-- 播放次数 -->
-                    <span>{{item.lnum}}万</span>
+                    <span :data-i=i+1 @click="recommendToSongSheet">{{item.lnum}}万</span>
                 </div>
                 <!-- 歌单封面 -->
-                <img :src="`http://127.0.0.1:4000/${item.listpic}`" :data-lid="item.lid" @click="toSongSheet"/>
+                <img :src="`http://127.0.0.1:4000/${item.listpic}`" :data-i=i+1 @click="recommendToSongSheet">
                 <!-- 歌单介绍 -->
-                <p id="list-p">{{item.linfo}}</p>
+                <p id="list-p" :data-i=i+1 @click="recommendToSongSheet">{{item.linfo}}</p>
             </li>
         </ul>
         <!-- 推荐歌曲 -->
@@ -29,7 +29,7 @@
             <ul class="recommend-list">
                 <li class="recommend-item p-height" v-for="(item,i) of recommendMusicList" :key="i">
                     <!-- 歌曲封面 -->
-                    <img :src="`http://127.0.0.1:4000/${item.spic}`"/>
+                    <img :src="`http://127.0.0.1:4000/${item.spic}`" @click="toPlayer"  :data-i="`{songName:${item.songName},spic:${item.songName},sid:${item.sid},gname:${item.gname},song:${item.song}}`"/>
                     <!-- 歌曲名称 -->
                     <p>{{item.songName}}</p>
                     <!-- 歌手名称 -->
@@ -61,9 +61,16 @@ export default {
         .then(res=>{this.recommendMusicList=res.data.data;});
     },
     methods: {
-        toSongSheet(e){
-            console.log(e.target.dataset.lid)
-            // this.$router.push({name:"SongSheet",params:{lid:e.target.dataset.lid}})
+        recommendToSongSheet(e){
+             this.$router.push({name:"SongSheet",params:{lid:e.target.dataset.i}})
+        },
+        toPlayer(e){
+            var song=e.target.dataset.i;
+            this.$store.commit("setOneList",song);
+        },
+        carouselToSongSheet(e){
+            var song=e.target.dataset.i;
+            this.$store.commit("setOneList",song);
         }
     },
 }
