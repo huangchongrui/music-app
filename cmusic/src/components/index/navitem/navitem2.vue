@@ -2,7 +2,7 @@
     <div class="container">
         <!-- 榜单 -->
         <ul class="ranking-list">
-            <li class="ranking-item" v-for="(item,i) of rankingList" :key="i" @click="toRank">
+            <li class="ranking-item" v-for="(item,i) of rankingList" :key="i" @click="toRank(i+1)">
                 <!-- 榜单左侧图片 -->
                 <img :src="`http://127.0.0.1:4000/${item.rpic}`"/>
                 <ul class="ranking-music">
@@ -28,8 +28,9 @@ export default {
         .then(res=>{this.rankingList=res.data.data});
     },
     methods: {
-        toRank(){
-            this.$router.push("/rank")
+        toRank($i){
+            console.log($i);
+            this.$store.commit("toRank",$i);
         }
     },
 }

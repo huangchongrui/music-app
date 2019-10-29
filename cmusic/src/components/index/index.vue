@@ -18,6 +18,15 @@
                 </van-popup>
             </div>
         </header>
+        
+            <!-- 顶部弹出层 -->
+            <div>
+                <van-popup :value="topShow" position="top" :style="{ height: '100%' }">
+                    <rank v-if="this.$store.getters.getRankShow"></rank>
+                    <songSheet v-if="this.$store.getters.getSongSheetShow"></songSheet>
+                    <singer v-if="this.$store.getters.getSingerShow"></singer>
+                </van-popup>
+            </div>
         <!-- 导航栏 -->
         <van-tabs v-model="active" swipeable background="#77ccf4" line-width="30px" title-active-color="#fff" title-inactive-color="#fff" @click="onClick">
             <!-- 导航栏对应内容 -->
@@ -37,13 +46,16 @@ import navitem2 from "./navitem/navitem2"
 import navitem3 from "./navitem/navitem3"
 import searchHead from "../searchHead/searchHead"
 import CollectionLately from "../list/CollectionLately"
+import rank from "../list/rank"
+import singer from "../list/singer"
+import songSheet from "../list/SongSheet"
 export default {
     data(){
         return {
             headerList:[{uname:"推荐",list:"[0]"},{uname:"排行",list:"[1]"},{uname:"歌手",list:"[2]"}],
             active:0,
             personListPopup:false,
-            searchPopup:false,
+            searchPopup:false
         }
     },
     methods:{
@@ -59,10 +71,35 @@ export default {
         onClick(name, title) {
             window.scrollTo(0,0);
         }
-
+    },
+    computed: {
+        topShow:{
+            get(){
+                return this.$store.getters.getTopShow;
+            },
+            set(val){
+                this.$store.getTopShow=val;
+            }
+        },
+        songSheetShow:{
+            get(){
+                return this.$store.getters.getSongSheetShow;
+            },
+            set(val){
+                this.$store.getSongSheetShow=val;
+            }
+        },
+        singerShow:{
+            get(){
+                return this.$store.getters.getSingerShow;
+            },
+            set(val){
+                this.$store.getSingerShow=val;
+            }
+        },
     },
     // 子组件
-    components:{navitem1,navitem2,navitem3,searchHead,CollectionLately}
+    components:{navitem1,navitem2,navitem3,searchHead,CollectionLately,rank,songSheet,singer}
 }
 </script>
 <style scoped>
@@ -78,7 +115,7 @@ export default {
         z-index:100;
     }
     header>h4{color:#fff}
-    .icon-right{width:20px;padding-right:5px;}
+    .icon-right{width:24px;padding-right:5px;}
      .index /deep/ .van-hairline--top-bottom:after{border-width:0}
      .index /deep/ .van-tabs--line .van-tabs__wrap{padding-bottom:7px;color:#e4e4e4}
      .index /deep/ .van-ellipsis{color:#e4e4e4}

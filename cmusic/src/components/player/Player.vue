@@ -121,6 +121,13 @@ export default {
 
 
 <style scoped>
+div /deep/ .van-action-sheet{
+  height:50%;
+  z-index:9999 !important;
+}
+div /deep/ .van-overlay{
+  z-index:9999 !important;
+}
 .player{
   background-image: linear-gradient(to bottom,#000 0%,#333 100%);
   position: fixed;
@@ -129,7 +136,7 @@ export default {
   right: 0;
   top: 0;
   bottom: 0;
-  z-index: 150;
+  z-index: 9990;
 }
 
 .background{
@@ -417,7 +424,7 @@ export default {
   position:fixed;
   left:0;
   bottom:0;
-  z-index:180;
+  z-index:9990;
   width:100%;
   height:8%;
   background:rgba(119,204,244,.7);

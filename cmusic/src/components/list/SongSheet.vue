@@ -4,9 +4,9 @@
             <!-- 添加背景图片 -->
             <img :src="'http://127.0.0.1:4000/'+packName[0].listpic" alt="">
             <mt-header fixed class="herderAll" >
-            <router-link to="/" slot="left">
+            <div slot="left" @click="toIndex">
                 <mt-button icon="back">{{title}}</mt-button>
-            </router-link>
+            </div>
             </mt-header>
             <p class="title">{{packName[0].linfo}}</p>
             <p class="listen">
@@ -21,11 +21,11 @@
                     <span>播放全部<span class="miniFont">(共{{song.length}}首)</span></span>
                 </p>
             </div>
-            <div class="list" v-for="(item,index) of song" :key="index" :data-i=index @click="toPlayer">
-                <div class="number" :data-i=index @click="toPlayer"><p :data-i=index @click="toPlayer">{{index+1}}</p></div>
+            <div class="list" v-for="(item,index) of song" :key="index"  @click="toPlayer(index)">
+                <div class="number"><p>{{index+1}}</p></div>
                 <div class="content">
-                    <p class="songName" :data-i=index @click="toPlayer">{{item.songName}}</p>
-                    <p class="singerName" :data-i=index @click="toPlayer">{{item.song.slice(4,).split("-")[0]}}</p>
+                    <p class="songName">{{item.songName}}</p>
+                    <p class="singerName">{{item.song.slice(4,).split("-")[0]}}</p>
                 </div>
             </div>
         </div>
@@ -55,14 +55,10 @@
                         var m =Height/ 212;
                         $(".herderAll").css("background", "rgba(119, 204, 244, " + m + ")");
                     };
-                    if(Height>212){
-                        this.title=packName[0].linfo
-                    }else if(Height<211){
-                        this.title="歌单"
-                    };
                 },
                  loadsong(){
-                    this.lid=this.$route.params.lid;
+                    this.lid=this.$store.getters.getSongSheetLid;
+                    console.log(this.lid)
                     var url="detaPackName";
                     this.axios.get(url,{params:{lid:this.lid}}).then(res=>{
                         this.packName=res.data;
@@ -70,15 +66,18 @@
                     });
                 },
                 loadsiger(){
-                    this.lid=this.$route.params.lid;
+                    this.lid=this.$store.getters.getSongSheetLid;
                     var url="detaPackSong";
                     this.axios.get(url,{params:{lid:this.lid}}).then(res=>{
                         this.song=res.data;
                     });
                 },
-                toPlayer(e){
-                    console.log(this.song,e.target.dataset.i)
-                     this.$store.commit("setAllList",{list:this.song,index:e.target.dataset.i})
+                toPlayer($index){
+                     this.$store.commit("setAllList",{list:this.song,index:$index})
+                },
+                toIndex(){
+                    console.log(11)
+                    this.$store.commit("toIndex")
                 }
             }
         }

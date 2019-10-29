@@ -2,27 +2,26 @@
     <div class="rank" @touchmove="bg_rgba">
         <div class="top">
             <!-- 添加背景图片 -->
-            <img :src="'http://127.0.0.1:4000/'+rank[0].rpic" alt="">
+            <img :src="'http://127.0.0.1:4000/'+rankDetail[0].rpic" alt="">
             <mt-header fixed class="herderAll" >
-            <router-link to="/" slot="left">
-                <mt-button icon="back">{{title}}</mt-button>
-            </router-link>
+            <div slot="left" @click="toIndex">
+                <mt-button icon="back">{{rankDetail[0].rtitle}}</mt-button>
+            </div>
             </mt-header>
-            <p class="title">{{rank[0].gname}}</p>
         </div>
         <div class="songList">
             <div class="palyAll">
                 <p class="playBtn">
                     <img src="../../assets/play.png" alt="">
-                    <span>播放全部<span class="miniFont">(共{{song.length}}首)</span></span>
+                    <span>播放全部<span class="miniFont">(共{{rankDetail.length}}首)</span></span>
                 </p>
             </div>
-            <div class="listAll" v-for="(item,i) of song" :key="i">
+            <div class="listAll" v-for="(item,i) of rankDetail" :key="i" @click="toPlayer(i)">
                 <div class="list">
-                    <div class="number"><p>{{i+1}}</p></div>
+                    <div class="number"><p>{{item.place}}</p></div>
                     <div class="content">
                         <p class="songName">{{item.songName}}</p>
-                        <p class="rankName">{{item.song.slice(4,).split("-")[0]}}</p>
+                        <p class="rankName">{{item.gname}}</p>
                     </div>
                 </div>
             </div>
@@ -33,44 +32,31 @@
         export default {
             data(){
                 return{
-                    rank:[{"rpic":"img/rank/rank1.jpg"}],
-                    song:[],
-                    title:"歌手",
+                    rankDetail:[{rpic:"img/rank/rank4.jpg"}],
+                    title:"排行",
                 }
             },
             created(){
-                this.loadsong(),
-                this.loadsiger()
-            },
-            computed:{
+                var url="rankdetail";
+                var rid=this.$store.getters.getRankRid;
+                this.axios.get(url,{params:{rid}}).then(res=>{
+                    this.rankDetail=res.data.data;
+                });
             },
             methods:{
                 bg_rgba(){
                     var Height = $(window).scrollTop();
-                    // console.log(Height);
                     if(Height>0){
                         var m =Height/ 212;
                         $(".herderAll").css("background", "rgba(119, 204, 244, " + m + ")");
-                    };
-                    if(Height>212){
-                        this.title=rank.gname
-                    }else if(Height<211){
-                        this.title="排行"
                     }
                 },
-                loadsong(){
-                    var url="detarankSong";
-                    this.axios.get(url).then(res=>{
-                        this.song=res.data;
-                        // console.log(res);
-                    });
+                toIndex(){
+                    this.$store.commit("toIndex")
                 },
-                loadsiger(){
-                    var url="detarankrank";
-                    this.axios.get(url).then(res=>{
-                        this.rank=res.data;
-                    });
-                }
+                toPlayer($index){
+                     this.$store.commit("setAllList",{list:this.rankDetail,index:$index})
+                },
             }
         }
 </script>

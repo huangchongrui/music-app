@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <transition name="fadel">
-      <router-view/>
+      <router-view></router-view>
     </transition>
     <player></player>
   </div>
@@ -20,7 +20,7 @@ export default {
 <style>
 *{margin:0;padding:0;box-sizing:border-box;letter-spacing: 2px;}
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: Arial,'Avenir', Helvetica,  sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

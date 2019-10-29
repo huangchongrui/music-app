@@ -1,5 +1,3 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
 import router from './router'
@@ -19,6 +17,7 @@ import 'vant/lib/index-anchor/style'
 import 'vant/lib/cell/style'
 import 'vant/lib/nav-bar/style'
 import 'vant/lib/action-sheet/style'
+//注册vant部分功能模块
 Vue.use(Tab,).use(Tabs).use(Popup).use(Swipe).use(SwipeItem).use(Lazyload, {lazyComponent: true}).use(IndexBar).use(IndexAnchor).use(Cell).use(NavBar).use(ActionSheet);
 
 //引入字体图标
@@ -28,6 +27,7 @@ import './font/font-player/iconfont.css'
 Vue.use(MintUI)
 import 'mint-ui/lib/style.css'
 
+//引入axios
 import axios from "axios"
 axios.defaults.baseURL="http://127.0.0.1:4000/";
 axios.defaults.withCredentials=true;
@@ -49,8 +49,42 @@ var store=new Vuex.Store({
     fullScreen:false,//是否全屏
     playList:[],//播放列表
     currentIndex:-1,//0开始
+    topShow:false,  //顶部弹出层是否显示
+    rankShow:false, //rank组件是否显示
+    songSheetShow:false, //songSheet组件是否显示
+    singerShow:false, //singer组件是否显示
+    rankRid:1,
+    songSheetLid:1,
+    singerGid:1
   },
   mutations:{
+    toIndex(state){
+      state.topShow=false;
+      state.rankShow=false;
+      state.songSheetShow=false;
+      state.singerShow=false;
+    },
+    // 显示rank组件
+    toRank(state,rankRid){
+      console.log(rankRid);
+      state.topShow=true;
+      state.rankShow=true;
+      state.rankRid=rankRid;
+    },
+    // 显示songSheet组件
+    toSongSheet(state,songSheetLid){
+      console.log(songSheetLid);
+      state.topShow=true;
+      state.songSheetShow=true;
+      state.songSheetLid=songSheetLid;
+    },
+    // 显示singer组件
+    toSinger(state,singerGid){
+      console.log(singerGid);
+      state.topShow=true;
+      state.singerShow=true;
+      state.singerGid=singerGid;
+    },
     updateVal(state,v){
       state.inputVal=v;
     },
@@ -65,11 +99,11 @@ var store=new Vuex.Store({
     },
     //整个歌单插入,从index播放
     setAllList(state,l){
-      console.log("11"+state.fullScreen)
       state.playList=l.list;
       state.currentIndex=l.index;
       state.playing=true;
       state.fullScreen=true;
+      console.log(l);
     },
     //单首插入,从index播放song是歌曲对象
     setOneList(state,song){
@@ -125,6 +159,27 @@ var store=new Vuex.Store({
     }
   },
   getters:{
+    getTopShow(state){
+      return state.topShow;
+    },
+    getRankShow(state){
+      return state.rankShow;
+    },
+    getRankRid(state){
+      return state.rankRid;
+    },
+    getSongSheetShow(state){
+      return state.songSheetShow;
+    },
+    getSongSheetLid(state){
+      return state.songSheetLid;
+    },
+    getSingerShow(state){
+      return state.singerShow;
+    },
+    getSingerGid(state){
+      return state.singerGid;
+    },
     getVal(state){
       return state.inputVal;
     },

@@ -4,9 +4,9 @@
             <!-- 添加背景图片 -->
             <img :src="'http://127.0.0.1:4000/'+singer[0].gpic" alt="">
             <mt-header fixed class="herderAll" >
-            <router-link to="/" slot="left">
+            <div slot="left" @click="toIndex">
                 <mt-button icon="back">{{title}}</mt-button>
-            </router-link>
+            </div>
             </mt-header>
             <p class="title">{{singer[0].gname}}</p>
         </div>
@@ -17,12 +17,12 @@
                     <span>播放全部<span class="miniFont">(共{{song.length}}首)</span></span>
                 </p>
             </div>
-            <div class="listAll" v-for="(item,i) of song" :key="i">
+            <div class="listAll" v-for="(item,i) of song" :key="i" @click="toPlayer(i)">
                 <div class="list">
-                    <div class="number"><p :data-i=i @click="toPlayer">{{i+1}}</p></div>
+                    <div class="number"><p>{{i+1}}</p></div>
                     <div class="content">
-                        <p class="songName" :data-i=i @click="toPlayer">{{item.songName}}</p>
-                        <p class="singerName" :data-i=i @click="toPlayer">{{item.song.slice(4,).split("-")[0]}}</p>
+                        <p class="songName">{{item.songName}}</p>
+                        <p class="singerName">{{item.song.slice(4,).split("-")[0]}}</p>
                     </div>
                 </div>
             </div>
@@ -40,6 +40,7 @@
                 }
             },
             created(){
+                console.log(44)
                 this.loadsong(),
                 this.loadsiger()
             },
@@ -51,30 +52,28 @@
                     if(Height>0){
                         var m =Height/ 212;
                         $(".herderAll").css("background", "rgba(119, 204, 244, " + m + ")");
-                    };
-                    if(Height>212){
-                        this.title=singer.gname
-                    }else if(Height<211){
-                        this.title="歌手"
                     }
                 },
                 loadsong(){
-                    this.gid=this.$route.params.gid;
+                    this.gid=this.$store.getters.getSingerGid;
                     var url="detaSingerSong";
                     this.axios.get(url,{params:{gid:this.gid}}).then(res=>{
                         this.song=res.data;
                     });
                 },
                 loadsiger(){
-                    this.gid=this.$route.params.gid;
+                    this.gid=this.$store.getters.getSingerGid;
                     var url="detaSingerSinger";
                     this.axios.get(url,{params:{gid:this.gid}}).then(res=>{
                         this.singer=res.data;
                     });
                 },
-                toPlayer(e){
-                    console.log(this.song,e.target.dataset.i);
-                     this.$store.commit("setAllList",{list:this.song,index:e.target.dataset.i})
+                toPlayer($i){
+                     this.$store.commit("setAllList",{list:this.song,index:$i})
+                },
+                toIndex(){
+                    console.log(11)
+                    this.$store.commit("toIndex")
                 }
             }
         }

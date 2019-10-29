@@ -2,7 +2,7 @@
     <div>
         <div class="bestmatch">最佳匹配</div>
         <!-- 搜索列表 -->
-        <div v-for="(item,i) of list" :key="i" class="container">
+        <div v-for="(item,i) of list" :key="i" class="container" @click="toPlayer(item)">
             <div class="song">
                 <p>{{item.songName}}</p>
                 <p>{{item.gname}}</p>
@@ -13,8 +13,9 @@
 
 <script>
 export default {
-    data() {
-        return {
+    methods: {
+        toPlayer($item){
+            this.$store.commit("setOneList",$item)
         }
     },
     computed: {
@@ -23,9 +24,6 @@ export default {
                 return this.$store.state.searchList.data;
             },
         }
-    },
-    methods: {
-        
     },
 }
 </script>

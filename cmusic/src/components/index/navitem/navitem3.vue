@@ -4,12 +4,12 @@
         <van-index-bar :sticky-offset-top=96 highlight-color="#77ccf4" :sticky="false" :index-list="indexList">
             <div v-for="(item,i) of indexList" :key="i">
                 <van-index-anchor :index=item />
-                <div v-for="(item2,i2) of singers[i]" :key="i2">
+                <div v-for="(item2,i2) of singers[i]" :key="i2" @click="toSinger(item2.gid)">
                     <div class="singer">
                         <!-- 歌手图片 -->
-                        <img :src="`http://127.0.0.1:4000/${item2.gpic}`" :data-i="`${item2.gid}`" @click="toSinger"/>
+                        <img :src="`http://127.0.0.1:4000/${item2.gpic}`"/>
                         <!-- 歌手名字 -->
-                        <span  :data-i="`${item2.gid}`" @click="toSinger">{{item2.gname}}</span>
+                        <span>{{item2.gname}}</span>
                     </div>
                 </div>
             </div>
@@ -41,8 +41,9 @@ export default {
             });
     },
     methods: {
-        toSinger(e){
-             this.$router.push({name:"singer",params:{gid:e.target.dataset.i}})
+        toSinger($i){
+            console.log($i);
+            this.$store.commit("toSinger",$i);
         }
     },
 }
