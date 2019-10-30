@@ -55,7 +55,8 @@ var store=new Vuex.Store({
     singerShow:false, //singer组件是否显示
     rankRid:1,
     songSheetLid:1,
-    singerGid:1
+    singerGid:1,
+    userinfo:[]//用户信息
   },
   mutations:{
     toIndex(state){
@@ -114,7 +115,7 @@ var store=new Vuex.Store({
         state.playing=true;
         state.fullScreen=true;
       }else{
-        let playlist = state.playList // 赋值的是对象引用,state不允许外部修改，用slice()做个副本赋值
+        let playlist = state.playList.slice() // 赋值的是对象引用,state不允许外部修改，用slice()做个副本赋值
         let currentIndex = state.currentIndex
         //将歌曲插入当前歌曲的下一首
         currentIndex++;
@@ -122,18 +123,20 @@ var store=new Vuex.Store({
         //判断列表中是否有这首歌
         var index=-1;
         for(var i=0;i<playlist.length;i++){
-          if(playlist[i].sid==song.sid){//播放列表中已有该歌曲
+          if(playlist[i].sid===song.sid){//播放列表中已有该歌曲
             index=i;
+            break;
           }
         }
         // 删除已存在的歌曲
         if(index!=-1){
           //歌曲在当前播放的前面
-          if(currentIndex>index)
-          playlist.splice(index,1)
-          currentIndex--
-        }else{
-          playlist.splice(index+1,1)
+          if(currentIndex>index){
+            playlist.splice(index,1);
+            currentIndex--;
+          }else{
+            playlist.splice(index+1,1)
+          }
         }
         state.fullScreen=true;
         state.playList=playlist;
@@ -149,8 +152,31 @@ var store=new Vuex.Store({
     setcurrentIndex(state,index){
       state.currentIndex=index;
     },
-    delplaylistOne(state){
-      
+    setplayingState(state,bool){
+      state.playing=bool;
+    },
+    //删除一首
+    delplaylistOne(state,song){
+      let playlist = state.playList.slice();
+      let currentIndex = state.currentIndex;
+      var index=-1;
+      for(var i=0;i<playlist.length;i++){
+        if(playlist[i].sid===song.sid){//播放列表中已有该歌曲
+          index=i;
+          break;
+        }
+      }
+      playlist.splice(index, 1) // 删除点击这条
+      if (currentIndex > index || currentIndex === playlist.length) { // 如果删除的是播放前面的一条则需要把当前播放索引减一
+        currentIndex--
+      }
+      state.playList=playlist;
+      state.currentIndex=currentIndex;
+      if (!playlist.length) { // 如果当前列表空了，关闭播放
+        state.playing=false;
+      } else {
+        state.playing=true;
+      }
     },
     delplaylistAll(state){
       state.currentIndex=-1;

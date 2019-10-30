@@ -67,7 +67,6 @@ export default {
         },
         // 歌曲列表
         toSongSheet($i){
-            console.log($i);
             this.$store.commit("toSongSheet",$i);
         }
     },

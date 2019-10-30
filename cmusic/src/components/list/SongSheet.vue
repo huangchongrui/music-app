@@ -11,7 +11,7 @@
             <p class="title">{{packName[0].linfo}}</p>
             <p class="listen">
                 <img src="../../assets/listen.png" alt="">
-                119万
+                {{packName[0].lnum}}万
             </p>
         </div>
         <div class="songList">
@@ -25,7 +25,7 @@
                 <div class="number"><p>{{index+1}}</p></div>
                 <div class="content">
                     <p class="songName">{{item.songName}}</p>
-                    <p class="singerName">{{item.song.slice(4,).split("-")[0]}}</p>
+                    <p class="singerName">{{item.gname}}</p>
                 </div>
             </div>
         </div>

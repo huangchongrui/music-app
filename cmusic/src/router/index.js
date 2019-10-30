@@ -14,6 +14,9 @@ import Navitem3 from "@/components/index/navitem/navitem3"
 import searchHead from '@/components/searchHead/searchHead'
 import search from '@/components/search/search'
 import search2 from '@/components/search/search2'
+import user from '@/components/user/user'
+import login from '@/components/login/login'
+import reg from '@/components/login/reg'
 
 
 Vue.use(Router)
@@ -33,5 +36,8 @@ export default new Router({
     {path:'/search',name: 'search',component:search},
     {path:'/search2',name: 'search2',component:search2},
     {path:'/rank',name: 'rank',component:rank},
+    {path:'/user',name: 'user',component:user},
+    {path:'/login',name: 'login',component:login},
+    {path:'/reg',name: 'reg',component:reg},
   ]
 })

@@ -1,10 +1,10 @@
 <template>
-  <div v-show="this.$store.getters.getplayList.length>0">
+  <div v-if="this.$store.getters.getplayList.length>0">
     <transition name="normal">
       <div id="player" class="player" v-show="this.$store.getters.getfullScreen">
         <div class="background">
           <div class="filter"></div>
-          <img src="https://p3fx.kgimg.com/stdmusic/20191010/20191010191203148524.jpg" width="100%" height="100%"/>
+          <img :src="'http://127.0.0.1:4000/'+this.$store.getters.getcurrentSong.spic" width="100%" height="100%"/>
         </div>
         <div class="top">
           <div class="back">
@@ -13,8 +13,8 @@
           </div>
           <!--歌名和歌手-->
           <div class="song-info">
-            <div class="title"><span>野狼Disco</span></div>
-            <div class="singer"><span>宝石Gem、陈伟霆</span><i class="iconfont icon-xiangyou"></i></div>
+            <div class="title"><span>{{this.$store.getters.getcurrentSong.songName}}</span></div>
+            <div class="singer"><span>{{this.$store.getters.getcurrentSong.gname}}</span><i class="iconfont icon-xiangyou"></i></div>
           </div>
           <!--分享-->
           <div class="share">
@@ -25,7 +25,7 @@
           <div class="middle-pic" v-show="currentShow === 'cd'">
             <div class="cd-wrapper">
               <div class="cd" :class="cdCls">
-                <img src="https://p3fx.kgimg.com/stdmusic/20191010/20191010191203148524.jpg" class="image"/>
+                <img :src="'http://127.0.0.1:4000/'+this.$store.getters.getcurrentSong.spic" class="image"/>
               </div>
             </div>
           </div>
@@ -46,6 +46,7 @@
             <span class="ltime">00:00</span>
             <div class="progress-bar">
               <!--进度条组件-->
+              <progress-bar></progress-bar>
             </div>
             <span class="rtime">00:00</span>
           </div>
@@ -62,11 +63,11 @@
     <!--迷你播放器-->
     <div class="mini-player" v-show="this.$store.getters.getfullScreen==false" @click.stop="changefullScreen">
       <div class="icon">
-        <img :class="cdCls" src="https://p3fx.kgimg.com/stdmusic/20191010/20191010191203148524.jpg" width="40" height="40">
+        <img :class="cdCls" :src="'http://127.0.0.1:4000/'+this.$store.getters.getcurrentSong.spic" width="40" height="40">
       </div>
       <div class="text">
-        <h2 class="name">野狼Disco</h2>
-        <div class="desc">宝石Gem、陈伟霆</div>
+        <h2 class="name">{{this.$store.getters.getcurrentSong.songName}}</h2>
+        <div class="desc">{{this.$store.getters.getcurrentSong.gname}}</div>
       </div>
       <div class="control">
         <i style="color:#000;font-size:30px;" class="iconfont" :class="changeImg" @click.stop="changeplaying"></i>
@@ -82,7 +83,7 @@
       <p>这里是歌曲的信息</p>
     </van-action-sheet>
     <van-action-sheet v-model="playListShow">
-      <p>这里是播放列表</p>
+      <playlist></playlist>
     </van-action-sheet>
     <!--
     <audio id="music-audio" ref="audio" @ended="end" autoplay @canplay="ready" @error="error" @timeupdate="updateTime"></audio>-->
@@ -90,7 +91,13 @@
 </template>
 
 <script>
+import PlayList from './PlayList';
+import ProgressBar from './ProgressBar';
 export default {
+  components: {
+    "playlist": PlayList,
+    "progress-bar": ProgressBar
+  },
   data() {
     return {
       shareShow:false,
@@ -122,11 +129,11 @@ export default {
 
 <style scoped>
 div /deep/ .van-action-sheet{
-  height:50%;
-  z-index:9999 !important;
+  height: 55%;
+  z-index:9990 !important;
 }
 div /deep/ .van-overlay{
-  z-index:9999 !important;
+  z-index:9990 !important;
 }
 .player{
   background-image: linear-gradient(to bottom,#000 0%,#333 100%);
@@ -136,7 +143,7 @@ div /deep/ .van-overlay{
   right: 0;
   top: 0;
   bottom: 0;
-  z-index: 9990;
+  z-index: 9900;
 }
 
 .background{
@@ -169,17 +176,25 @@ div /deep/ .van-overlay{
   flex-direction:column;
   justify-content:space-around;
   align-items:center;
+  text-align:center;
   width:75%;
 }
 
 .title{
+  width: 100%;
   color:white;
   font-size:18px;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 
 .singer{
   color:#aaa;
   font-size:14px;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 
 
@@ -464,11 +479,17 @@ div /deep/ .van-overlay{
   line-height:14px;
   font-size:14px;
   color:#2e3030;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 
 .text .desc{
   font-size:12px;
   color:#2e3030;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 
 .control{
@@ -486,4 +507,5 @@ div /deep/ .van-overlay{
 .normal-enter,.normal-leave-to {
   opacity: 0;
 }
+
 </style>

@@ -12,7 +12,7 @@
         </div>
         <div class="songList">
             <div class="palyAll">
-                <p class="playBtn">
+                <p class="playBtn" @click="toPlayer(0)">
                     <img src="../../assets/play.png" alt="">
                     <span>播放全部<span class="miniFont">(共{{song.length}}首)</span></span>
                 </p>
@@ -22,7 +22,7 @@
                     <div class="number"><p>{{i+1}}</p></div>
                     <div class="content">
                         <p class="songName">{{item.songName}}</p>
-                        <p class="singerName">{{item.song.slice(4,).split("-")[0]}}</p>
+                        <p class="singerName">{{item.gname}}</p>
                     </div>
                 </div>
             </div>
@@ -40,7 +40,6 @@
                 }
             },
             created(){
-                console.log(44)
                 this.loadsong(),
                 this.loadsiger()
             },
@@ -49,6 +48,7 @@
             methods:{
                 bg_rgba(){
                     var Height = $(window).scrollTop();
+                    console.log(Height)
                     if(Height>0){
                         var m =Height/ 212;
                         $(".herderAll").css("background", "rgba(119, 204, 244, " + m + ")");
@@ -69,6 +69,7 @@
                     });
                 },
                 toPlayer($i){
+                    console.log(111,$i)
                      this.$store.commit("setAllList",{list:this.song,index:$i})
                 },
                 toIndex(){
@@ -143,6 +144,9 @@
         width: 23px;
     }
     .singer>.songList>.listAll>.list>.content{/*设置单个歌曲列表中内容的样式——歌手加歌曲名*/
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
         text-align: left;
         margin-top: 8px;
     }
