@@ -11,8 +11,8 @@
             <p class="title">{{singer[0].gname}}</p>
         </div>
         <div class="songList">
-            <div class="palyAll">
-                <p class="playBtn" @click="toPlayer(0)">
+            <div class="palyAll" @click="toPlayer(0)">
+                <p class="playBtn">
                     <img src="../../assets/play.png" alt="">
                     <span>播放全部<span class="miniFont">(共{{song.length}}首)</span></span>
                 </p>
