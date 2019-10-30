@@ -1,6 +1,6 @@
 <template>
-    <div class="SongSheet" @touchmove="bg_rgba">
-        <div class="top">
+    <div class="SongSheet">
+        <div class="top" id="toolbar" style="background:linear-gradient(top,#000,#fff);">
             <!-- 添加背景图片 -->
             <img :src="'http://127.0.0.1:4000/'+packName[0].listpic" alt="">
             <mt-header fixed class="herderAll" >
@@ -15,7 +15,7 @@
             </p>
         </div>
         <div class="songList">
-            <div class="palyAll">
+            <div class="palyAll" @click="toPlayer(0)">
                 <p class="playBtn">
                     <img src="../../assets/play.png" alt="">
                     <span>播放全部<span class="miniFont">(共{{song.length}}首)</span></span>
@@ -39,23 +39,27 @@
                     song:[],
                     packName:[{"listpic":"img/songlist/songlist11.jpg"}],
                     title:"歌单",
-                    lid:1
+                    lid:1,
+                    offsetTop:0
                 }
             },
              created(){
                 this.loadsiger(),
                 this.loadsong()
             },
-            computed:{
+            mounted(){
+                let toolbar=document.getElementById("toolbar");
+                window.addEventListener('scroll',()=>{
+                    this.offsetTop=window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+                    console.log(this.offsetTop);
+                    if (this.offsetTop>320) {
+                    toolbar.style.background="#fff"
+                    }else{
+                        toolbar.setAttribute("style","background:linear-gradient(top,#000,#fff)")
+                    }
+                },true);
             },
             methods:{
-                bg_rgba(){
-                    var Height = $(window).scrollTop();
-                    if(Height>0){
-                        var m =Height/ 212;
-                        $(".herderAll").css("background", "rgba(119, 204, 244, " + m + ")");
-                    };
-                },
                  loadsong(){
                     this.lid=this.$store.getters.getSongSheetLid;
                     console.log(this.lid)
