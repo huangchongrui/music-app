@@ -15,7 +15,7 @@
             </p>
         </div>
         <div class="songList">
-            <div class="palyAll" @click="toPlayer(0)">
+            <div class="palyAll">
                 <p class="playBtn">
                     <img src="../../assets/play.png" alt="">
                     <span>播放全部<span class="miniFont">(共{{song.length}}首)</span></span>
