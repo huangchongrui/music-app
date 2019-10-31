@@ -111,7 +111,6 @@ export default {
       this.$store.commit("toggleplaying");
     },
     changefullScreen(){
-      console.log("play"+this.$store.getters.getfullScreen)
       this.$store.commit("togglefullScreen");
     }
   },

@@ -1,12 +1,12 @@
 <template>
     <div class="index">
         <!-- 头部 -->
-        <header>
+        <header :style="{backgroundColor:this.$store.getters.getColor}">
             <!-- 左侧弹出层按钮 -->
             <div class="left-btn">
                 <img src="../../assets/personList.png" @click="personListShow">
                 <van-popup v-model="personListPopup" position="left" :style="{ width:'80%',height:'100%'}">
-                    <CollectionLately></CollectionLately>
+                    <user></user>
                 </van-popup>
             </div>
             <h4>VMUSICJIN</h4>
@@ -28,7 +28,7 @@
                 </van-popup>
             </div>
         <!-- 导航栏 -->
-        <van-tabs v-model="active" swipeable background="#77ccf4" line-width="30px" title-active-color="#fff" title-inactive-color="#fff" @click="onClick">
+        <van-tabs v-model="active" swipeable :background="this.$store.getters.getColor" line-width="30px" title-active-color="#fff" title-inactive-color="#fff" @click="onClick">
             <!-- 导航栏对应内容 -->
             <van-tab v-for="item,i of headerList" :title="item.uname" :key="i">
                 <!-- 数据库引入的具体内容 -->
@@ -49,6 +49,7 @@ import CollectionLately from "../list/CollectionLately"
 import rank from "../list/rank"
 import singer from "../list/singer"
 import songSheet from "../list/SongSheet"
+import user from "../user/user"
 export default {
     data(){
         return {
@@ -99,7 +100,7 @@ export default {
         },
     },
     // 子组件
-    components:{navitem1,navitem2,navitem3,searchHead,CollectionLately,rank,songSheet,singer}
+    components:{navitem1,navitem2,navitem3,searchHead,CollectionLately,rank,songSheet,singer,user}
 }
 </script>
 <style scoped>
@@ -107,7 +108,6 @@ export default {
     header{
         height:44px;width:100%;
         padding:0 10px;
-        background-color:#77ccf4;
         display:flex;
         justify-content:space-between;
         align-items:center;

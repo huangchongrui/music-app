@@ -56,7 +56,8 @@ var store=new Vuex.Store({
     rankRid:1,
     songSheetLid:1,
     singerGid:1,
-    userinfo:[]//用户信息
+    userinfo:[],//用户信息
+    color:"#6666FF"
   },
   mutations:{
     toIndex(state){
@@ -185,6 +186,9 @@ var store=new Vuex.Store({
     }
   },
   getters:{
+    getColor(state){
+      return state.color;
+    },
     getTopShow(state){
       return state.topShow;
     },

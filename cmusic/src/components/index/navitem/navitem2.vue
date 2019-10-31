@@ -29,7 +29,6 @@ export default {
     },
     methods: {
         toRank($i){
-            console.log($i);
             this.$store.commit("toRank",$i);
         }
     },

@@ -1,9 +1,9 @@
 <template>
-    <div class="rank" @touchmove="bg_rgba">
+    <div class="rank">
         <div class="top">
             <!-- 添加背景图片 -->
             <img :src="'http://127.0.0.1:4000/'+rankDetail[0].rpic" alt="">
-            <mt-header fixed class="herderAll" >
+            <mt-header fixed class="herderAll"  :style="{backgroundColor:this.$store.getters.getColor,opacity:.7}">
             <div slot="left" @click="toIndex">
                 <mt-button icon="back">{{rankDetail[0].rtitle}}</mt-button>
             </div>
@@ -44,13 +44,6 @@
                 });
             },
             methods:{
-                bg_rgba(){
-                    var Height = $(window).scrollTop();
-                    if(Height>0){
-                        var m =Height/ 212;
-                        $(".herderAll").css("background", "rgba(119, 204, 244, " + m + ")");
-                    }
-                },
                 toIndex(){
                     this.$store.commit("toIndex")
                 },

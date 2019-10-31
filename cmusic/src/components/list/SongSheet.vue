@@ -1,9 +1,9 @@
 <template>
     <div class="SongSheet">
-        <div class="top" id="toolbar" style="background:linear-gradient(top,#000,#fff);">
+        <div class="top" id="toolbar">
             <!-- 添加背景图片 -->
             <img :src="'http://127.0.0.1:4000/'+packName[0].listpic" alt="">
-            <mt-header fixed class="herderAll" >
+            <mt-header fixed class="herderAll"  :style="{backgroundColor:this.$store.getters.getColor,opacity:.7}">
             <div slot="left" @click="toIndex">
                 <mt-button icon="back">{{title}}</mt-button>
             </div>
@@ -39,30 +39,16 @@
                     song:[],
                     packName:[{"listpic":"img/songlist/songlist11.jpg"}],
                     title:"歌单",
-                    lid:1,
-                    offsetTop:0
+                    lid:1
                 }
             },
              created(){
                 this.loadsiger(),
                 this.loadsong()
             },
-            mounted(){
-                let toolbar=document.getElementById("toolbar");
-                window.addEventListener('scroll',()=>{
-                    this.offsetTop=window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-                    console.log(this.offsetTop);
-                    if (this.offsetTop>320) {
-                    toolbar.style.background="#fff"
-                    }else{
-                        toolbar.setAttribute("style","background:linear-gradient(top,#000,#fff)")
-                    }
-                },true);
-            },
             methods:{
                  loadsong(){
                     this.lid=this.$store.getters.getSongSheetLid;
-                    console.log(this.lid)
                     var url="detaPackName";
                     this.axios.get(url,{params:{lid:this.lid}}).then(res=>{
                         this.packName=res.data;
@@ -80,7 +66,6 @@
                      this.$store.commit("setAllList",{list:this.song,index:$index})
                 },
                 toIndex(){
-                    console.log(11)
                     this.$store.commit("toIndex")
                 }
             }

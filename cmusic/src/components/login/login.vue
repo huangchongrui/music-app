@@ -1,5 +1,9 @@
 <template>
     <div class="login">
+        <div class="head">
+            <img @click="back" class="back" src="../../assets/back.png" alt="">
+            <span @click="back">返回</span>
+        </div>
         <div class="logo">
             <img src="../../assets/Clogo.png" alt="">
         </div>
@@ -10,7 +14,6 @@
         <router-link to="/reg" >
             <mt-button type="primary">注册</mt-button>
         </router-link>
-        
     </div>
 </template>
 <script>
@@ -50,10 +53,9 @@
                         url,
                         {params:obj})
                     .then(res=>{
-                        console.log(res.data);
                         if(res.data.length==1){
                             this.$store.state.userinfo=res.data;
-                            this.$router.push("/user");
+                            this.$router.push("/index");
                             
                         }else{
                             this.$messagebox("消息","用户名或密码错误");
@@ -62,6 +64,9 @@
                 // 9、获取服务器返回结果
                 // 10、登录失败   提示信息
                 // 11、登录成功跳转/Product        
+            },
+            back(){
+                this.$router.go(-1);
             }
         }
     }
@@ -78,6 +83,17 @@
     background-position: 0px 0px;
     background-size: 100% 100%;
     text-align:center;
+ }
+  .login>.head{/*返回按钮样式 */
+    display: flex;
+    justify-content: start;
+    color:#fff;
+ }
+ .login>.head img{
+     width:30px;height:30px;
+ }
+ .login>.head span{
+     margin-top:4px;
  }
  .login>.logo{/*设置logo样式*/
      padding-top: 57px;

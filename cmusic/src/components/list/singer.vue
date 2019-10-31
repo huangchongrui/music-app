@@ -1,9 +1,9 @@
 <template>
-    <div class="singer" @touchmove="bg_rgba">
+    <div class="singer">
         <div class="top">
             <!-- 添加背景图片 -->
             <img :src="'http://127.0.0.1:4000/'+singer[0].gpic" alt="">
-            <mt-header fixed class="herderAll" >
+            <mt-header fixed class="herderAll" :style="{backgroundColor:this.$store.getters.getColor,opacity:.7}">
             <div slot="left" @click="toIndex">
                 <mt-button icon="back">{{title}}</mt-button>
             </div>
@@ -43,17 +43,7 @@
                 this.loadsong(),
                 this.loadsiger()
             },
-            computed:{
-            },
             methods:{
-                bg_rgba(){
-                    var Height = $(window).scrollTop();
-                    console.log(Height)
-                    if(Height>0){
-                        var m =Height/ 212;
-                        $(".herderAll").css("background", "rgba(119, 204, 244, " + m + ")");
-                    }
-                },
                 loadsong(){
                     this.gid=this.$store.getters.getSingerGid;
                     var url="detaSingerSong";
@@ -69,11 +59,9 @@
                     });
                 },
                 toPlayer($i){
-                    console.log(111,$i)
                      this.$store.commit("setAllList",{list:this.song,index:$i})
                 },
                 toIndex(){
-                    console.log(11)
                     this.$store.commit("toIndex")
                 }
             }

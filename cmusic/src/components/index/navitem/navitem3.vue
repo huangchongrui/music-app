@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <!-- 歌手列表 -->
-        <van-index-bar :sticky-offset-top=96 highlight-color="#77ccf4" :sticky="false" :index-list="indexList">
+        <van-index-bar :sticky-offset-top=96 :highlight-color="this.$store.getters.getColor" :sticky="false" :index-list="indexList">
             <div v-for="(item,i) of indexList" :key="i">
                 <van-index-anchor :index=item />
                 <div v-for="(item2,i2) of singers[i]" :key="i2" @click="toSinger(item2.gid)">
@@ -42,7 +42,6 @@ export default {
     },
     methods: {
         toSinger($i){
-            console.log($i);
             this.$store.commit("toSinger",$i);
         }
     },

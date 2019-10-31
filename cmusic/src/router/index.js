@@ -17,6 +17,7 @@ import search2 from '@/components/search/search2'
 import user from '@/components/user/user'
 import login from '@/components/login/login'
 import reg from '@/components/login/reg'
+import about from '@/components/about/about'
 
 
 Vue.use(Router)
@@ -39,5 +40,6 @@ export default new Router({
     {path:'/user',name: 'user',component:user},
     {path:'/login',name: 'login',component:login},
     {path:'/reg',name: 'reg',component:reg},
+    {path:'/about',name: 'about',component:about},
   ]
 })

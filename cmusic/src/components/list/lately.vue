@@ -4,15 +4,15 @@
             <div class="palyAll">
                 <p class="playBtn">
                     <img src="../../assets/play.png" alt="">
-                    <span>播放全部<span class="miniFont">(共{{sum}}首)</span></span>
+                    <span>播放全部<span class="miniFont">(共{{list.length}}首)</span></span>
                 </p>
             </div>
             <div class="listAll">
-                <div class="list" v-for="(item,index) of list.data" :key="index">
-                    <div class="number"><p>{{item.id}}</p></div>
+                <div class="list" v-for="(item,index) of list" :key="index">
+                    <div class="number"><p>{{index+1}}</p></div>
                     <div class="content">
                         <p class="songName">{{item.songName}}</p>
-                        <p class="singerName">{{item.singerName}}</p>
+                        <p class="singerName">{{item.song.slice(4,).split("-")[0]}}</p>
                     </div>
                 </div>
             </div>
@@ -20,15 +20,25 @@
     </div>
 </template>
 <script>
-    import slist from "../json/lately.json"
         export default {
             data(){
                 return{
-                    title:slist.title,
-                    list:slist,
-                    sum:slist.data.length
+                    list:[]
                 }
-            }
+            },
+            created() {
+                var uid=this.$route.params.uid;
+                //发送axios请求查询用户最近播放
+                var url='recently';
+                var obj={uid:uid};
+                this.axios.get(url,{params:obj})
+                .then(res=>{
+                    this.list=res.data;
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+            },
         }
 </script>
 <style scoped>

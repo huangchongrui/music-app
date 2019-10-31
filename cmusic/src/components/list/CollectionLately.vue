@@ -1,7 +1,11 @@
 <template>
   <div class="collectionLately">
-    <div class="top">
-        <mt-navbar v-model="active" class="tab">
+    <div class="top"  :style="{backgroundColor:this.$store.getters.getColor}">
+        <div class="head">
+            <img @click="back" class="back" src="../../assets/back.png" alt="">
+            <span @click="back">返回</span>
+        </div>
+        <mt-navbar v-model="active" class="tab"  :style="{backgroundColor:this.$store.getters.getColor}">
             <mt-tab-item id="tab-container1" class="bbb">我的收藏</mt-tab-item>
             <mt-tab-item id="tab-container2" class="bbb">最近播放</mt-tab-item>
         </mt-navbar>
@@ -30,6 +34,11 @@ export default {
       active: 'tab-container1'
     };
   },
+  methods: {
+    back(){
+        this.$router.go(-1);
+    }
+  },
   components:{
       "collection":Collection,
       "lately":Lately,
@@ -37,8 +46,19 @@ export default {
 };
 </script>
 <style scoped>
+.head{/*返回按钮样式 */
+    position: absolute;
+    top:4px;left:0;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    vertical-align:middle;
+ }
+.head img{
+     width:30px;height:30px;
+ }
 .collectionLately>.top{/*设置头部固定条样式*/
-    background:#77CCF4;
     height: 40px;
     width: 100%;
     position: fixed;
@@ -46,12 +66,10 @@ export default {
 }
 .collectionLately>.top .router-link-active{/*设置返回按钮是样式*/
     float: left;
-    background:#77CCF4;
     height: 40px;
 }
 .collectionLately>.top .mint-button--default{/*设置返回按钮是样式*/
     color: #fff;
-    background-color:#77CCF4;
     box-shadow: 0 0;
 }
 .collectionLately>.top .mint-button--normal {/*设置返回按钮是样式*/
@@ -59,7 +77,6 @@ export default {
     height: 40px;
 }
 .collectionLately>.top>.tab{/*设置切换按钮的样式*/
-    background: #77CCF4;
     height: 40px;
     width: 230px;
     margin: auto;

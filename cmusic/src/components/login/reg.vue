@@ -1,5 +1,9 @@
 ﻿<template>
     <div class="reg">
+        <div class="head">
+            <img @click="back" class="back" src="../../assets/back.png" alt="">
+            <span @click="back">返回</span>
+        </div>
         <div class="logo">
             <img src="../../assets/Clogo.png" alt="">
         </div>
@@ -69,7 +73,6 @@
                             url,
                             {params:obj})
                         .then(res=>{
-                            console.log(res.data.code);
                             if(res.data.code>0){
                                 this.$messagebox("消息","注册成功").then(action => {
                                     this.$router.push("/login");
@@ -111,6 +114,9 @@
                                 return;
                         }
                     })  
+            },
+            back(){
+                this.$router.go(-1);
             }
         },
         watch: {
@@ -134,6 +140,17 @@
     background-position: 0px 0px;
     background-size: 100% 100%;
     text-align:center;
+ }
+.reg>.head{/*返回按钮样式 */
+    display: flex;
+    justify-content: start;
+    color:#fff;
+ }
+ .reg>.head img{
+     width:30px;height:30px;
+ }
+ .reg>.head span{
+     margin-top:4px;
  }
  .reg>.logo{/*设置logo样式*/
      padding-top: 57px;

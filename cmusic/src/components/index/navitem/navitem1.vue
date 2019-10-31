@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <!-- 轮播图，只在第一个导航中显示 -->
-        <div class="carousel">
+        <div class="carousel" :style="{backgroundColor:this.$store.getters.getColor}">
             <van-swipe :autoplay="3000">
                 <van-swipe-item v-for="(item, index) in carousels" :key="index" @click="toPlayer(item)">
                     <img :src="`http://127.0.0.1:4000/${item.cpic}`" class="carousel-img"/>
@@ -77,7 +77,6 @@ export default {
     .carousel{
         padding:0 10px 20px;
         width:100%;height:130px;
-        background-color:#77ccf4;
         box-sizing:border-box;
         margin-bottom:36px;
     }

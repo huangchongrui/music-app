@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- 搜索框 -->
-        <div class="search-head">
+        <div class="search-head"  :style="{backgroundColor:this.$store.getters.getColor}">
             <img @click="back" class="back" src="../../assets/back.png" alt="">
             <input v-model="Val" type="text" placeholder="搜索歌曲、歌手" >
             <img class="clean" @click="clean" src="../../assets/close.png" alt="">
@@ -73,7 +73,6 @@ export default {
 <style scoped>
     *{margin:0;padding:0;}
     .search-head{
-        background: #77CCF4;
         display: flex;
         justify-content: space-between;
         padding: 5px;
@@ -81,7 +80,6 @@ export default {
     input{
         width:80%;
         border:0;
-        background: #77CCF4;
         outline: 0;
         color: #fff;
     }

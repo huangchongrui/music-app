@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- 头部立即登录与信息显示 -->
-        <div class="head">
+        <div class="head" :style="{backgroundColor:this.$store.getters.getColor}">
             <!-- 信息显示 -->
             <div v-if="user.length>=1" v-for="(item,i) of user" :key="i" class="user_info">
                 <img src="../../assets/user.png" alt="">
@@ -19,11 +19,13 @@
         <!-- 功能列表 -->
         <div class="body">
             <ul class="list">
-                <li><img src="../../assets/played.png" alt=""><span>最近播放</span></li>
-                <li><img src="../../assets/collect.png" alt=""><span>收藏列表</span></li>
-                <li><img src="../../assets/about.png" alt=""><span>关于我们</span></li>
-                <li><img src="../../assets/quit.png" alt=""><span>退出登录</span></li>
+                <li @click="recently"><img src="../../assets/played.png" alt="" :style="{backgroundColor:this.$store.getters.getColor,borderBottomColor:this.$store.getters.getColor}"><span>最近播放</span></li>
+                <li @click="collection"><img src="../../assets/collect.png" alt="" :style="{backgroundColor:this.$store.getters.getColor,borderBottomColor:this.$store.getters.getColor}"><span>收藏列表</span></li>
+                <li><img src="../../assets/theme.png" alt="" :style="{backgroundColor:this.$store.getters.getColor,borderBottomColor:this.$store.getters.getColor}"><span>更换主题</span></li>
+                <li @click="about"><img src="../../assets/about.png" alt="" :style="{backgroundColor:this.$store.getters.getColor,borderBottomColor:this.$store.getters.getColor}"><span>关于我们</span></li>
+                <li @click="quit"><img src="../../assets/quit.png" alt="" :style="{backgroundColor:this.$store.getters.getColor,borderBottomColor:this.$store.getters.getColor}"><span>退出登录</span></li>
             </ul>
+
         </div>
     </div>
 </template>
@@ -38,6 +40,36 @@ export default {
     created() {
         this.user=this.$store.state.userinfo;
     },
+    methods: {
+        recently(){
+            if(this.user.length==0){
+                this.$messagebox("你还未登录！");
+            }else{
+                this.$router.push({name:"CollectionLately",params:{uid:this.user[0].uid}})
+            }
+        },
+        collection(){
+            if(this.user.length==0){
+                this.$messagebox("你还未登录！");
+            }else{
+                this.$router.push({name:"CollectionLately",params:{uid:this.user[0].uid}})
+            }
+        },
+        about(){
+            this.$router.push('/about');
+        },
+        quit(){
+            if(this.user.length==0){
+                this.$messagebox("你还未登录！");
+            }else{
+                this.$messagebox.confirm("确定要退出吗？").then(action=>{
+                this.user=this.$store.state.userinfo=[];
+            }).catch(err=>{
+
+            });
+            }
+        }
+    },
 }
 </script>
 
@@ -45,7 +77,6 @@ export default {
         /* 头部登录与用户信息 */
         .head{
             width: 100%;height:200px;
-            background: #e8e8e8;
         }
         .head::before{
             display: table;
@@ -78,11 +109,14 @@ export default {
             color:#383838;
             line-height: 30px;
             position: relative;
+            border-bottom-width:1px;
+            border-bottom-style:solid;
         }
         .list>li img{
             position: absolute;
             width:30px;height:30px;
             top:15px;;left:20px;
+            border-radius:5px;
         }
         .list>li span{
             line-height: 60px;
