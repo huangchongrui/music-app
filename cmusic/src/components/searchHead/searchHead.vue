@@ -3,7 +3,7 @@
         <!-- 搜索框 -->
         <div class="search-head"  :style="{backgroundColor:this.$store.getters.getColor}">
             <img @click="back" class="back" src="../../assets/back.png" alt="">
-            <input v-model="Val" type="text" placeholder="搜索歌曲、歌手" >
+            <input v-model="Val" type="text" placeholder="搜索歌曲、歌手"  :style="{backgroundColor:this.$store.getters.getColor}">
             <img class="clean" @click="clean" src="../../assets/close.png" alt="">
         </div>
         <!-- 调用子组件 -->

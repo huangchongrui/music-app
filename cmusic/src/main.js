@@ -32,7 +32,6 @@ import axios from "axios"
 axios.defaults.baseURL="http://127.0.0.1:4000/";
 axios.defaults.withCredentials=true;
 Vue.prototype.axios = axios;
-
 Vue.config.productionTip = false
 
 //引入vuex
@@ -57,9 +56,16 @@ var store=new Vuex.Store({
     songSheetLid:1,
     singerGid:1,
     userinfo:[],//用户信息
-    color:"#6666FF"
+    color:["#6666FF","#77ccf4","#209C38","#e54847","#716776"],
+    colorNum:0
   },
   mutations:{
+    //更换主题色
+    themeColor(state){
+      if(state.colorNum<4){
+        state.colorNum++;
+      }else{state.colorNum=0}
+    },
     toIndex(state){
       state.topShow=false;
       state.rankShow=false;
@@ -187,7 +193,7 @@ var store=new Vuex.Store({
   },
   getters:{
     getColor(state){
-      return state.color;
+      return state.color[state.colorNum];
     },
     getTopShow(state){
       return state.topShow;

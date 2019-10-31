@@ -119,6 +119,7 @@ export default {
      .index /deep/ .van-hairline--top-bottom:after{border-width:0}
      .index /deep/ .van-tabs--line .van-tabs__wrap{padding-bottom:7px;color:#e4e4e4}
      .index /deep/ .van-ellipsis{color:#e4e4e4}
+     .index /deep/ .van-tabs__line{background-color:#e4e4e4}
      .index /deep/ .van-tabs__nav--line{
         position:fixed;
         z-index:99;

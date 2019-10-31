@@ -9,7 +9,7 @@
             </div>
             <div class="listAll">
                 <div class="list" v-for="(item,index) of list" :key="index">
-                    <div class="number"><p>{{item.id}}</p></div>
+                    <div class="number"><p>{{index+1}}</p></div>
                     <div class="content">
                         <p class="songName">{{item.songName}}</p>
                         <p class="singerName">{{item.song.slice(4,).split("-")[0]}}</p>

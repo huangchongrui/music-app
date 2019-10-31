@@ -21,7 +21,7 @@
             <ul class="list">
                 <li @click="recently"><img src="../../assets/played.png" alt="" :style="{backgroundColor:this.$store.getters.getColor,borderBottomColor:this.$store.getters.getColor}"><span>最近播放</span></li>
                 <li @click="collection"><img src="../../assets/collect.png" alt="" :style="{backgroundColor:this.$store.getters.getColor,borderBottomColor:this.$store.getters.getColor}"><span>收藏列表</span></li>
-                <li><img src="../../assets/theme.png" alt="" :style="{backgroundColor:this.$store.getters.getColor,borderBottomColor:this.$store.getters.getColor}"><span>更换主题</span></li>
+                <li @click="$store.commit('themeColor')"><img src="../../assets/theme.png" alt="" :style="{backgroundColor:this.$store.getters.getColor,borderBottomColor:this.$store.getters.getColor}"><span>更换主题</span></li>
                 <li @click="about"><img src="../../assets/about.png" alt="" :style="{backgroundColor:this.$store.getters.getColor,borderBottomColor:this.$store.getters.getColor}"><span>关于我们</span></li>
                 <li @click="quit"><img src="../../assets/quit.png" alt="" :style="{backgroundColor:this.$store.getters.getColor,borderBottomColor:this.$store.getters.getColor}"><span>退出登录</span></li>
             </ul>

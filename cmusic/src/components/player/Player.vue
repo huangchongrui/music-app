@@ -34,7 +34,8 @@
         <div class="bottom">
           <div class="btop">
             <!--收藏这里要变换样式-->
-            <div><i style="font-size:20px;color:#ddd;" class="iconfont icon-shoucang1"></i></div>
+            <div v-if="iscollect==false"><i @click="addcollect" style="font-size:20px;color:#ddd;" class="iconfont icon-shoucang1"></i></div>
+            <div v-else><i @click="removecollect" style="font-size:20px;color:#f46;" class="iconfont icon-shoucang"></i></div>
             <div><i style="font-size:20px;color:#ddd;" class="iconfont icon-xiazai"></i></div>
             <div><i style="font-size:20px;color:#ddd;" class="iconfont icon-yinxiao"></i></div>
             <div><i style="font-size:20px;color:#ddd;" class="iconfont icon-pinglun"></i></div>
@@ -104,7 +105,11 @@ export default {
       songInfoShow:false,
       playListShow:false,
       currentShow:"cd",
+      iscollect:false
     }
+  },
+  created() {
+
   },
   methods: {
     changeplaying(){
@@ -112,6 +117,73 @@ export default {
     },
     changefullScreen(){
       this.$store.commit("togglefullScreen");
+    },
+    addcollect() {//收藏功能
+      if(this.$store.state.userinfo.length==0){
+        console.log(1);
+        this.$toast({
+          message:"请先登录",
+          className:"zindex"
+        });
+      }else{
+        var sid = this.currentSong.sid;
+        var uid = this.$store.state.userinfo[0].uid;
+        var url = 'addcollect';
+        var obj = {uid:uid,sid:sid};
+        this.axios.get(url,{params:obj})
+        .then(res=>{
+          console.log(res);
+          this.iscollect=true;
+        });
+      }
+    },
+    removecollect(){//取消收藏
+      var sid = this.currentSong.sid;
+      var uid = this.$store.state.userinfo[0].uid;
+      var url = 'removecollect';
+      var obj = {uid:uid,sid:sid};
+      this.axios.get(url,{params:obj})
+      .then(res=>{
+        console.log(res);
+        this.iscollect=false;
+      });
+    }
+  },
+  watch: {
+    currentSong(){
+        //查询用户是否收藏该歌曲
+        var currentSong = this.$store.getters.getcurrentSong
+        if(this.$store.state.userinfo.length==0){
+          return
+        }else{
+          var sid = currentSong.sid;
+          var uid = this.$store.state.userinfo[0].uid;
+          var url = 'iscollect';
+          var obj = {uid:uid,sid:sid};
+          this.axios.get(url,{params:obj})
+          .then(res=>{
+            if(res.data.code==-1){
+              this.iscollect=false;
+            }else{
+              this.iscollect=true;
+            }
+          });
+        }
+        var url2 = 'isrecently';
+        this.axios.get(url2,{params:obj})
+        .then(res=>{
+          if(res.data.code==1){
+            console.log(res.data);
+            return;
+          }else{
+            var url3 = 'addrecently';
+            //添加到最近播放
+            this.axios.get(url3,{params:obj})
+            .then(res=>{
+              console.log(res);
+            })
+          }
+        })
     }
   },
   computed: {
@@ -120,6 +192,11 @@ export default {
     },
     changeImg(){
       return this.$store.getters.getplaying==true ? 'icon-zanting' : 'icon-bofang'
+    },
+    currentSong:{
+      get(){
+        return this.$store.getters.getcurrentSong;
+      }
     }
   },
 }
