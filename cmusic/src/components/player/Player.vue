@@ -9,16 +9,16 @@
         <div class="top">
           <div class="back">
             <!--返回按钮-->
-            <i class="iconfont icon-xiangzuo" @click="changefullScreen"></i>
+            <i class="iconfont icon-zuojiantouxiangzuoxianxing" @click="changefullScreen" style="font-size:20px;color:#ddd;"></i>
           </div>
           <!--歌名和歌手-->
           <div class="song-info">
             <div class="title"><span>{{this.$store.getters.getcurrentSong.songName}}</span></div>
-            <div class="singer"><span>{{this.$store.getters.getcurrentSong.gname}}</span><i class="iconfont icon-xiangyou"></i></div>
+            <div class="singer"><span>{{this.$store.getters.getcurrentSong.gname}}</span></div>
           </div>
           <!--分享-->
           <div class="share">
-            <i class="iconfont icon-fenxiang-1" @click="shareShow=!shareShow"></i>
+            <i class="iconfont icon-fenxiang" @click="shareShow=!shareShow" style="font-size:20px;color:#ddd;"></i>
           </div>
         </div>
         <div class="middle">
@@ -34,28 +34,28 @@
         <div class="bottom">
           <div class="btop">
             <!--收藏这里要变换样式-->
-            <div v-if="iscollect==false"><i @click="addcollect" style="font-size:20px;color:#ddd;" class="iconfont icon-shoucang1"></i></div>
-            <div v-else><i @click="removecollect" style="font-size:20px;color:#f46;" class="iconfont icon-shoucang"></i></div>
-            <div><i style="font-size:20px;color:#ddd;" class="iconfont icon-xiazai"></i></div>
+            <div v-if="iscollect==false"><i @click="addcollect" style="font-size:20px;color:#ddd;" class="iconfont icon-shoucang"></i></div>
+            <div v-else><i @click="removecollect" style="font-size:20px;color:#f46;" class="iconfont icon-shoucang1"></i></div>
             <div><i style="font-size:20px;color:#ddd;" class="iconfont icon-yinxiao"></i></div>
-            <div><i style="font-size:20px;color:#ddd;" class="iconfont icon-pinglun"></i></div>
-            <div><i style="font-size:20px;color:#ddd;" class="iconfont icon-xiangxixinxi" @click="songInfoShow=!songInfoShow"></i>
+            <div><i style="font-size:20px;color:#ddd;" class="iconfont icon-jianshao" @click="downVolume"></i></div>
+            <div><i style="font-size:20px;color:#ddd;" class="iconfont icon-zengjia" @click="upVolume"></i></div>
+            <div><i style="font-size:20px;color:#ddd;" class="iconfont icon-more" @click="songInfoShow=!songInfoShow"></i>
             </div>
           </div>
           <div class="bmiddle">
             <!--进度条-->
-            <span class="ltime">00:00</span>
-            <div class="progress-bar">
+            <div class="ltime"><span>{{format(currentTime)}}</span></div>      
+            <div class="progress-bar-item">
               <!--进度条组件-->
-              <progress-bar></progress-bar>
+              <progress-bar :percent="percent" @percentChange="percentChange"></progress-bar>
             </div>
-            <span class="rtime">00:00</span>
+            <div class="rtime"><span>{{format(totalTime)}}</span></div>       
           </div>
           <div class="bbottom">
             <div><i style="color:#fff;font-size:20px;" class="iconfont icon-liebiaoxunhuan"></i></div>
-            <div><i style="color:#fff;font-size:20px;" class="iconfont icon-shangyishoushangyige"></i></div>
+            <div><i style="color:#fff;font-size:20px;" class="iconfont icon-shangyishou1" @click.stop="prev"></i></div>
             <div><i style="color:#fff;font-size:40px;" class="iconfont" :class="changeImg" @click.stop="changeplaying"></i></div>
-            <div><i style="color:#fff;font-size:20px;" class="iconfont icon-xiayigexiayishou"></i></div>
+            <div><i style="color:#fff;font-size:20px;" class="iconfont icon-shangyishou" @click.stop="next"></i></div>
             <div><i style="color:#fff;font-size:20px;" class="iconfont icon-bofangliebiao" @click.stop="playListShow=!playListShow;"></i></div>
           </div>
         </div>
@@ -86,8 +86,8 @@
     <van-action-sheet v-model="playListShow">
       <playlist></playlist>
     </van-action-sheet>
-    <!--
-    <audio id="music-audio" ref="audio" @ended="end" autoplay @canplay="ready" @error="error" @timeupdate="updateTime"></audio>-->
+    <!--音乐播放器-->
+    <audio ref="audio" @ended="songEnd" autoplay @canplay="audioReady" @timeupdate="timeUpdate" @error="audioError" :src="'http://127.0.0.1:4000/'+this.$store.getters.getcurrentSong.song"></audio>
   </div>
 </template>
 
@@ -105,11 +105,14 @@ export default {
       songInfoShow:false,
       playListShow:false,
       currentShow:"cd",
-      iscollect:false
+      iscollect:false,
+      songReadey: false,  //能否跳转下一首
+      currentTime:"",//当前时间
+      totalTime:"",//总时间
     }
   },
   created() {
-
+    this.touch={}
   },
   methods: {
     changeplaying(){
@@ -147,6 +150,127 @@ export default {
         console.log(res);
         this.iscollect=false;
       });
+    },
+    //停止播放的切换
+    changeplaying(){
+      this.$store.commit("toggleplaying");
+      if(this.$refs.audio.paused===true){
+        this.$refs.audio.play();
+      }else{
+        this.$refs.audio.pause();
+      }
+    },
+    //大小屏的切换
+    changefullScreen(){
+      console.log("play"+this.$store.getters.getfullScreen)
+      this.$store.commit("togglefullScreen");
+    },
+    //格式化歌曲的时间
+    format(interval) {
+      interval = interval | 0;
+      var min = (interval / 60) | 0;
+      var sec = interval % 60;
+      if (sec.toString().length === 1) {
+        sec = `0${sec}`;
+      }
+      return `${min}:${sec}`;
+    },
+    //上一首
+    prev(){
+      if (!this.songReadey) {
+        return;
+      }
+      if (this.$store.getters.getplayList.length === 1) {
+        this.songLoop();
+      } else {
+        let index = this.$store.getters.getcurrentIndex - 1;
+        if (index === -1) {
+          index = this.$store.getters.getplayList.length - 1;
+        }
+        this.$store.commit("setcurrentIndex",index);
+        this.$store.commit("setplayingState",true); // 点击上一曲后自动播放
+      }
+      this.songReadey = false;
+    },
+    //下一首
+    next(){
+      if (!this.songReadey) {
+        return;
+      }
+      if (this.$store.getters.getplayList.length === 1) {
+        this.songLoop();
+      } else {
+        let index = this.$store.getters.getcurrentIndex + 1;
+        if (index === this.$store.getters.getplayList.length) {
+          index = 0;
+        }
+        this.$store.commit("setcurrentIndex",index);
+        this.$store.commit("setplayingState",true); // 点击下一曲后自动播放
+      }
+      this.songReadey = false;
+    },
+    // @canplay:浏览器能够开始播放指定的音频或视频
+    audioReady(){
+      this.songReadey=true;
+      this.$refs.audio.volume=this.$store.getters.getvolume;
+      this.currentTime=this.$refs.audio.currentTime;
+      this.totalTime=this.$refs.audio.duration;
+    },
+    // @error:在音频或视频加载发生错误时触发
+    audioError(){
+      this.$toast({
+        message: "当前歌曲加载失败,请尝试其他歌曲!",
+        className: "zindex"
+      });
+      this.songReadey=true;
+    },
+    // @timeupdate:播放位置改变时触发[注意:播放和调整指示定位时都会触发]
+    timeUpdate(e){
+      this.currentTime=e.target.currentTime;
+    },
+    // @ended:音频或视频文件播放完毕后触发
+    songEnd(){
+      this.next();
+    },
+    //单曲循环(用于只有一首歌的时候)
+    songLoop(){
+      this.$refs.audio.currentTime = 0;
+      this.$refs.audio.play();
+    },
+    /* 歌曲进度条触摸后改变歌曲播放进度 */
+    percentChange(precent) {
+      const currentTime = this.totalTime * precent;
+      this.$refs.audio.currentTime = currentTime;
+    },
+    downVolume(){
+      if(Math.round(this.$store.getters.getvolume*10)>0){
+        this.$store.commit("changevolume",-0.1);
+        this.$refs.audio.volume=this.$store.getters.getvolume;
+        this.$toast({
+          message: "当前音量："+Math.round(this.$store.getters.getvolume*10),
+          className: "zindex"
+        })
+      }else{
+        this.$toast({
+          message: "当前音量已最小,无法降低!",
+          className: "zindex"
+        })
+      }
+    },
+    upVolume(){
+      if(Math.round(this.$store.getters.getvolume*10)<10){
+        this.$store.commit("changevolume",0.1);
+        this.$refs.audio.volume=this.$store.getters.getvolume;
+        this.$toast({
+          message: "当前音量："+Math.round(this.$store.getters.getvolume*10),
+          className: "zindex"
+        })
+      }else{
+        this.$toast({
+          message: "当前音量已最大,无法提升!",
+          className: "zindex"
+        })
+      }
     }
   },
   watch: {
@@ -197,6 +321,9 @@ export default {
       get(){
         return this.$store.getters.getcurrentSong;
       }
+    },
+    percent(){
+      return this.currentTime/this.totalTime;
     }
   },
 }
@@ -392,14 +519,26 @@ div /deep/ .van-overlay{
   height:20%;
 }
 
+.bmiddle>div{
+  width: 20%;
+}
+
 .ltime{
   font:12px Arial;
-  color: #bbb;
+  color: #ccc;
+  text-align: right;
+}
+
+.bmiddle .progress-bar-item{
+  width: 70%;
+  height: 50%;
+  padding: 0 5%;
 }
 
 .rtime{
   font:12px Arial;
-  color: #999999;
+  color: #ccc;
+  text-align: left;
 }
 
 .bbottom{
@@ -440,73 +579,7 @@ div /deep/ .van-overlay{
   content: "\e7a5";
 }
 
-.icon-shoucang:before {
-  content: "\e60a";
-}
 
-.icon-shoucang1:before {
-  content: "\e66c";
-}
-
-.icon-xiangxixinxi:before {
-  content: "\e64c";
-}
-
-.icon-xiangyou:before {
-  content: "\e683";
-}
-
-.icon-fenxiang-1:before {
-  content: "\e60b";
-}
-
-.icon-xiazai:before {
-  content: "\e69a";
-}
-
-.icon-pinglun:before {
-  content: "\e6b9";
-}
-
-.icon-shoucangjia:before {
-  content: "\e622";
-}
-
-.icon-liebiaoxunhuan:before {
-  content: "\e63d";
-}
-
-.icon-danquxunhuan:before {
-  content: "\e63e";
-}
-
-.icon-suijibofang1:before {
-  content: "\e625";
-}
-
-.icon-bofangliebiao:before {
-  content: "\e60c";
-}
-
-.icon-shanchu:before {
-  content: "\e651";
-}
-
-.icon-zanting:before {
-  content: "\e6bb";
-}
-
-.icon-bofang:before {
-  content: "\ec8b";
-}
-
-.icon-yinxiao:before {
-  content: "\e630";
-}
-
-.icon-shangyishoushangyige:before {
-  content: "\e645";
-}
 
 .mini-player{
   display:flex;

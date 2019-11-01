@@ -35,7 +35,8 @@ export default {
 .fade1-enter{
   opacity: 0.9;
 }
+
 .zindex{
-  z-index:9999 !important;
+  z-index: 9999 !important;
 }
 </style>

@@ -6,7 +6,7 @@
         <i class="iconfont icon-liebiaoxunhuan">列表循环({{this.$store.getters.getplayList.length}})</i>
       </div>
       <div class="head-right" @click.stop="deleteAll">
-        <i class="iconfont icon-shanchu">清空列表</i>
+        <i class="iconfont icon-shanchu-copy-copy">清空列表</i>
       </div>
     </div>
     <!--歌曲列表-->
@@ -47,9 +47,23 @@ export default {
     },
     deleteOne(item){
       this.$store.commit("delplaylistOne",item);
+      this.$toast({
+        message: "该歌曲已移除!",
+        className: "zindex"
+      })
     },
     deleteAll(){
-      this.$store.commit("delplaylistAll");
+      this.$dialog.confirm({
+        title: '提示',
+        message: '确认清空播放列表',
+        className: 'zindex',
+        overlayClass: 'zindex'
+      }).then(() => {
+        // on confirm
+        this.$store.commit("delplaylistAll");
+      }).catch(() => {
+        // on cancel
+      });
     },
   },
 }
@@ -85,11 +99,14 @@ export default {
   font-size:20px;
 }
 
-.icon-shanchu:before {
-  content: "\e651";
+.icon-shanchu-copy-copy:before {
+  content: "\e515";
   color: #999;
   font-size:20px;
 }
+
+
+
 
 .list-cnt{
   width: 100%;

@@ -9,7 +9,7 @@
                     <user></user>
                 </van-popup>
             </div>
-            <h4>VMUSICJIN</h4>
+            <h4>CMUSIC</h4>
             <!-- 右侧弹出层按钮 -->
             <div>
                 <img src="../../assets/search.png" class="icon-right" @click="searchShow">

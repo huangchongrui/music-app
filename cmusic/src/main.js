@@ -4,7 +4,7 @@ import router from './router'
 import MintUI from 'mint-ui'
 
 // 引入vant部分功能模块
-import { Tab, Tabs,Popup,Swipe,SwipeItem,Lazyload,IndexBar,IndexAnchor,Cell,NavBar,ActionSheet } from 'vant'
+import { Tab, Tabs,Popup,Swipe,SwipeItem,Lazyload,IndexBar,IndexAnchor,Cell,NavBar,ActionSheet,Dialog,Toast } from 'vant'
 // 引入vant部分功能模块样式
 import 'vant/lib/tab/style'
 import 'vant/lib/tabs/style'
@@ -17,8 +17,10 @@ import 'vant/lib/index-anchor/style'
 import 'vant/lib/cell/style'
 import 'vant/lib/nav-bar/style'
 import 'vant/lib/action-sheet/style'
+import 'vant/lib/dialog/style'
+import 'vant/lib/toast/style'
 //注册vant部分功能模块
-Vue.use(Tab,).use(Tabs).use(Popup).use(Swipe).use(SwipeItem).use(Lazyload, {lazyComponent: true}).use(IndexBar).use(IndexAnchor).use(Cell).use(NavBar).use(ActionSheet);
+Vue.use(Tab,).use(Tabs).use(Popup).use(Swipe).use(SwipeItem).use(Lazyload, {lazyComponent: true}).use(IndexBar).use(IndexAnchor).use(Cell).use(NavBar).use(ActionSheet).use(Dialog).use(Toast);
 
 //引入字体图标
 import './font/font-player/iconfont.css'
@@ -32,6 +34,7 @@ import axios from "axios"
 axios.defaults.baseURL="http://127.0.0.1:4000/";
 axios.defaults.withCredentials=true;
 Vue.prototype.axios = axios;
+
 Vue.config.productionTip = false
 
 //引入vuex
@@ -56,13 +59,18 @@ var store=new Vuex.Store({
     songSheetLid:1,
     singerGid:1,
     userinfo:[],//用户信息
-    color:["#6666FF","#77ccf4","#209C38","#e54847","#716776"],
-    colorNum:0
+    color:["#6666FF","#77ccf4","#209C38","#e54847","#716776","#E6cd32"],
+    colorNum:0,
+     volume: 0.2 //音量
   },
   mutations:{
+    //改变音量
+    changevolume(state,volume){
+      state.volume+=volume;
+    },
     //更换主题色
     themeColor(state){
-      if(state.colorNum<4){
+      if(state.colorNum<5){
         state.colorNum++;
       }else{state.colorNum=0}
     },
@@ -192,6 +200,9 @@ var store=new Vuex.Store({
     }
   },
   getters:{
+    getvolume(state){
+      return state.volume;
+    },
     getColor(state){
       return state.color[state.colorNum];
     },
