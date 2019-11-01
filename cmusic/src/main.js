@@ -70,7 +70,7 @@ var store=new Vuex.Store({
     },
     //更换主题色
     themeColor(state){
-      if(state.colorNum<5){
+      if(state.colorNum<state.color.length-1){
         state.colorNum++;
       }else{state.colorNum=0}
     },
