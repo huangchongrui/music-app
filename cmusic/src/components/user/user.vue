@@ -19,7 +19,7 @@
         <!-- 功能列表 -->
         <div class="body">
             <ul class="list">
-                <li @click="recently"><img src="../../assets/played.png" alt="" :style="{backgroundColor:this.$store.getters.getColor,borderBottomColor:this.$store.getters.getColor}"><span>最近播放</span></li>
+                <li @click="recently()"><img src="../../assets/played.png" alt="" :style="{backgroundColor:this.$store.getters.getColor,borderBottomColor:this.$store.getters.getColor}"><span>最近播放</span></li>
                 <li @click="collection"><img src="../../assets/collect.png" alt="" :style="{backgroundColor:this.$store.getters.getColor,borderBottomColor:this.$store.getters.getColor}"><span>收藏列表</span></li>
                 <li @click="$store.commit('themeColor')"><img src="../../assets/theme.png" alt="" :style="{backgroundColor:this.$store.getters.getColor,borderBottomColor:this.$store.getters.getColor}"><span>更换主题</span></li>
                 <li @click="about"><img src="../../assets/about.png" alt="" :style="{backgroundColor:this.$store.getters.getColor,borderBottomColor:this.$store.getters.getColor}"><span>关于我们</span></li>
@@ -45,7 +45,7 @@ export default {
             if(this.user.length==0){
                 this.$messagebox("你还未登录！");
             }else{
-                this.$router.push({name:"CollectionLately",params:{uid:this.user[0].uid}})
+                this.$router.push({name:"CollectionLately",params:{uid:this.user[0].uid,$i:"tab-container2"}})
             }
         },
         collection(){

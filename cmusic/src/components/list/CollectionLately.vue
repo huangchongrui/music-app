@@ -34,6 +34,10 @@ export default {
       active: 'tab-container1'
     };
   },
+  created() {
+      console.log(this.$route.params.$i);
+      this.active = this.$route.params.$i || "tab-container1"
+  },
   methods: {
     back(){
         this.$router.go(-1);

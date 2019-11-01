@@ -16,6 +16,7 @@ export default {
     methods: {
         toPlayer($item){
             this.$store.commit("setOneList",$item)
+            console.log($item)
         }
     },
     computed: {

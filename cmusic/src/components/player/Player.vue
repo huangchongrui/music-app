@@ -62,13 +62,13 @@
       </div>
     </transition>
     <!--迷你播放器-->
-    <div class="mini-player" v-show="this.$store.getters.getfullScreen==false" @click.stop="changefullScreen">
+    <div class="mini-player" v-show="this.$store.getters.getfullScreen==false" @click.stop="changefullScreen" :style="{backgroundColor:this.$store.getters.getColor,opacity:.9}">
       <div class="icon">
         <img :class="cdCls" :src="'http://127.0.0.1:4000/'+this.$store.getters.getcurrentSong.spic" width="40" height="40">
       </div>
       <div class="text">
-        <h2 class="name">{{this.$store.getters.getcurrentSong.songName}}</h2>
-        <div class="desc">{{this.$store.getters.getcurrentSong.gname}}</div>
+        <h2 class="name" style="opacity:1">{{this.$store.getters.getcurrentSong.songName}}</h2>
+        <div class="desc" style="opacity:1">{{this.$store.getters.getcurrentSong.gname}}</div>
       </div>
       <div class="control">
         <i style="color:#000;font-size:30px;" class="iconfont" :class="changeImg" @click.stop="changeplaying"></i>
@@ -591,7 +591,6 @@ div /deep/ .van-overlay{
   z-index:9990;
   width:100%;
   height:8%;
-  background:rgba(119,204,244,.7);
 }
 
 .icon{

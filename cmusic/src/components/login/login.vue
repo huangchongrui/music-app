@@ -123,7 +123,7 @@
     border-radius: 30px;
     color: #0069b4 ;
 
-	bottom: -134px;
+	bottom: -104px;
 }
 .login .mint-button--primary{/*设置注册按钮样式*/
     background-color:transparent;
@@ -134,7 +134,7 @@
     border: 1px solid #ffffff;
     margin-top: 20px;
 
-	bottom: -137px;
+	bottom: -107px;
 }
 .login .mint-button::after {/*设置单击时按钮样式*/
     background-color: #0069b4;

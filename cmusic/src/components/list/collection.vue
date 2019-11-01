@@ -1,14 +1,14 @@
 <template>
     <div class="SongSheet">
         <div class="songList">
-            <div class="palyAll">
+            <div class="palyAll" @click="toPlayer(0)">
                 <p class="playBtn">
                     <img src="../../assets/play.png" alt="">
                     <span>播放全部<span class="miniFont">(共{{list.length}}首)</span></span>
                 </p>
             </div>
             <div class="listAll">
-                <div class="list" v-for="(item,index) of list" :key="index">
+                <div class="list" v-for="(item,index) of list" :key="index" @click="toPlayer(index)">
                     <div class="number"><p>{{index+1}}</p></div>
                     <div class="content">
                         <p class="songName">{{item.songName}}</p>
@@ -39,6 +39,11 @@
                 .catch(err=>{
                     console.log(err);
                 })
+            },
+            methods: {
+                toPlayer($index){
+                     this.$store.commit("setAllList",{list:this.list,index:$index})
+                },
             },
         }
 </script>

@@ -182,7 +182,7 @@
     border: 1px solid #ffffff;
     margin-top: 20px;
     position: relative;;
-	bottom: -30px;
+	bottom: -10px;
 }
 .reg>.mint-button::after {/*设置单击时按钮样式*/
     background-color: #0069b4;
